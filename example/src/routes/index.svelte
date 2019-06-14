@@ -1,13 +1,10 @@
 <script>
-  import CodeMirror from "svelte-codemirror/src/CodeMirror.svelte";
+  //   import CodeMirror from "svelte-codemirror/src/CodeMirror.svelte";
+  import CodeMirror from "../../../src/CodeMirror.svelte";
 </script>
 
-<style>
-
-</style>
-
 <svelte:head>
-  <title>Sapper project template</title>
+  <title>svelte-codemirror example</title>
 </svelte:head>
 
 <CodeMirror />

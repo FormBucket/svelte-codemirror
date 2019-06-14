@@ -1,6 +1,6 @@
 {
   "name": "svelte-codemirror",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "An svelte v3 component for embedding codemirrorjs",
   "main": "src/CodeMirror.svelte",
   "svelte": "src/CodeMirror.svelte",
