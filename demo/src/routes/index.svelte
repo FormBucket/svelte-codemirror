@@ -9,6 +9,10 @@
   }
 </script>
 
+<script>
+  let value = "fooo";
+</script>
+
 <style>
   .codemirror-container {
     position: relative;
@@ -54,5 +58,5 @@
 </svelte:head>
 
 <div class="codemirror-container flex">
-  <CodeMirror code={``} />
+  <CodeMirror {value} />
 </div>

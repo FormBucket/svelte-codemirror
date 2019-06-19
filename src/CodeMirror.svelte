@@ -18,7 +18,7 @@
 
   const dispatch = createEventDispatcher();
 
-  export let code = "";
+  export let value = "";
   export let readonly = false;
   export let errorLoc = null;
   export let flex = false;
@@ -221,7 +221,7 @@
   }
 </style>
 
-<textarea tabindex="0" bind:this={refs.editor} readonly value={code} />
+<textarea tabindex="0" bind:this={refs.editor} readonly {value} />
 {#if !CodeMirror}
-  <pre>{code}</pre>
+  <pre>{value}</pre>
 {/if}
