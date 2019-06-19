@@ -33,23 +33,23 @@
   // than making this state-driven through props,
   // because it's difficult to update an editor
   // without resetting scroll otherwise
-  export async function set(new_code, new_mode) {
+  export async function set(new_value, new_mode) {
     if (new_mode !== mode) {
       await createEditor((mode = new_mode));
     }
 
-    code = new_code;
+    value = new_value;
     updating_externally = true;
-    if (editor) editor.setValue(code);
+    if (editor) editor.setValue(value);
     updating_externally = false;
   }
 
-  export function update(new_code) {
-    code = new_code;
+  export function update(new_value) {
+    value = new_value;
 
     if (editor) {
       const { left, top } = editor.getScrollInfo();
-      editor.setValue((code = new_code));
+      editor.setValue((value = new_value));
       editor.scrollTo(left, top);
     }
   }
@@ -126,13 +126,13 @@
     if (_CodeMirror) {
       CodeMirror = _CodeMirror;
       createEditor(mode || "svelte").then(() => {
-        if (editor) editor.setValue(code || "");
+        if (editor) editor.setValue(value || "");
       });
     } else {
       codemirror_promise.then(async mod => {
         CodeMirror = mod.default;
         await createEditor(mode || "svelte");
-        if (editor) editor.setValue(code || "");
+        if (editor) editor.setValue(value || "");
       });
     }
 
