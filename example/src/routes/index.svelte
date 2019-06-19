@@ -47,6 +47,6 @@
   <title>svelte-codemirror example</title>
 </svelte:head>
 
-<div class="codemirror-container">
-  <CodeMirror />
+<div class="codemirror-container flex">
+  <CodeMirror code={`Foo`} />
 </div>

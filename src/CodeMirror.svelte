@@ -1,13 +1,11 @@
 <script context="module">
-  import { is_browser } from "./env.js";
+  const is_browser = typeof window !== "undefined";
 
   let codemirror_promise;
   let _CodeMirror;
 
   if (is_browser) {
-    codemirror_promise = import(
-      /* webpackChunkName: "codemirror" */ "./codemirror.js"
-    );
+    codemirror_promise = import("codemirror");
 
     codemirror_promise.then(mod => {
       _CodeMirror = mod.default;
@@ -20,6 +18,7 @@
 
   const dispatch = createEventDispatcher();
 
+  export let code = "";
   export let readonly = false;
   export let errorLoc = null;
   export let flex = false;
@@ -28,7 +27,6 @@
 
   let w;
   let h;
-  let code = "";
   let mode;
 
   // We have to expose set and update methods, rather
@@ -225,5 +223,5 @@
 
 <textarea tabindex="0" bind:this={refs.editor} readonly value={code} />
 {#if !CodeMirror}
-  <pre style="position: absolute; left: 0; top: 0">{code}</pre>
+  <pre>{code}</pre>
 {/if}

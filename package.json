@@ -1,16 +1,22 @@
 {
   "name": "svelte-codemirror",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "An svelte v3 component for embedding codemirrorjs",
-  "main": "src/CodeMirror.svelte",
+  "module": "dist/index.mjs",
   "svelte": "src/CodeMirror.svelte",
   "scripts": {
+    "build": "rollup -c",
+    "prepublishOnly": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Rich Harris",
   "license": "ISC",
   "dependencies": {
-    "codemirror": "^5.47.0",
+    "codemirror": "^5.47.0"
+  },
+  "devDependencies": {
+    "rollup": "^1.15.6",
+    "rollup-plugin-svelte": "^5.1.0",
     "svelte": "^3.5.1"
   }
 }
