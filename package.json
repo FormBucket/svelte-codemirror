@@ -4,7 +4,7 @@
   "description": "An svelte v3 component for embedding codemirrorjs",
   "module": "index.mjs",
   "main": "index.js",
-  "svelte": "src/Repl.svelte",
+  "svelte": "src/CodeMirror.svelte",
   "scripts": {
     "build": "rollup -c -e codemirror",
     "prepublishOnly": "npm run build",

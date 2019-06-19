@@ -1,7 +1,7 @@
 <script context="module">
   const is_browser = typeof window !== "undefined";
 
-  import CodeMirror from "svelte-codemirror/index.js";
+  import CodeMirror from "svelte-codemirror";
   console.log(CodeMirror);
   // import CodeMirror from "../../../src/CodeMirror.svelte";
   import "codemirror/lib/codemirror.css";
