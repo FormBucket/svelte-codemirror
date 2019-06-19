@@ -2,21 +2,11 @@
   const is_browser = typeof window !== "undefined";
 
   import CodeMirror from "svelte-codemirror";
-  console.log(CodeMirror);
-  // import CodeMirror from "../../../src/CodeMirror.svelte";
   import "codemirror/lib/codemirror.css";
 
-  // if (is_browser) {
-  //   import("codemirror/mode/javascript/javascript.js");
-  //   import("codemirror/mode/javascript/shell.js");
-  //   import("codemirror/mode/javascript/handlebars.js");
-  //   import("codemirror/mode/javascript/htmlmixed.js");
-  //   import("codemirror/mode/javascript/xml.js");
-  //   import("codemirror/mode/javascript/shell.js");
-  //   import("codemirror/mode/css/css.js");
-  //   import("codemirror/addon/edit/closebrackets.js");
-  //   import("codemirror/addon/edit/closetag.js");
-  // }
+  if (is_browser) {
+    import("../codeMirrorPlugins");
+  }
 </script>
 
 <style>
@@ -64,5 +54,5 @@
 </svelte:head>
 
 <div class="codemirror-container flex">
-  <CodeMirror code={`Foo`} />
+  <CodeMirror code={``} />
 </div>
