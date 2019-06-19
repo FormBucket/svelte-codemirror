@@ -12,10 +12,11 @@
     "test": "run-p --race dev cy:run"
   },
   "dependencies": {
+    "codemirror": "^5.47.0",
     "compression": "^1.7.1",
     "polka": "^0.5.0",
     "sirv": "^0.4.0",
-    "svelte-codemirror": "^1.1.0"
+    "svelte-codemirror": "^1.1.1"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5",
