@@ -1,4 +1,5 @@
 import svelte from "rollup-plugin-svelte";
+import resolve from "rollup-plugin-node-resolve";
 import pkg from "./package.json";
 
 const name = pkg.name
@@ -8,6 +9,14 @@ const name = pkg.name
 
 export default {
   input: "src/CodeMirror.svelte",
-  output: [{ file: pkg.module, format: "es" }],
-  plugins: [svelte()]
+  output: [
+    { file: pkg.module, format: "es" },
+    { file: pkg.main, format: "umd", name }
+  ],
+  plugins: [
+    svelte({
+      generate: "ssr"
+    }),
+    resolve()
+  ]
 };
