@@ -69,9 +69,9 @@
   /** 
    * We want to expose the full options list
    */ 
-  export async function set(new_value, options) {
-    if (new_mode !== mode) {
-      await createEditor((options = options));
+  export async function set(newValue, newOptions) {
+    if (options !== newOptions) {
+      await createEditor((options = newOptions));
     }
 
     value = new_value;
