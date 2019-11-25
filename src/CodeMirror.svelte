@@ -21,12 +21,12 @@
   export let value = "";
   export let readonly = false;
   export let errorLoc = null;
-  export let flex = false;
-  export let lineNumbers = true;
-  export let tab = true;
+  export const flex = false;
+  // export let lineNumbers = true;
+  // export let tab = true;
 
   // Make options a prop 
-  export let options = {
+  export const options = {
     lineNumbers: true,
     lineWrapping: true,
     indentWithTabs: true,
@@ -34,7 +34,7 @@
     tabSize: 2,
     value: "",
     mode: "javascript",
-    readOnly: readonly,
+    readOnly: false,
     autoCloseBrackets: true,
     autoCloseTags: true,
     extraKeys: {
