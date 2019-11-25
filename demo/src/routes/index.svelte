@@ -16,9 +16,50 @@
 
   let cm1, cm2;
 
+  export const options_cm1 = {
+    lineNumbers: true,
+    lineWrapping: true,
+    indentWithTabs: true,
+    indentUnit: 2,
+    tabSize: 2,
+    value: "",
+    mode: "javascript",
+    readOnly: false,
+    autoCloseBrackets: true,
+    autoCloseTags: true,
+    extraKeys: {
+			["Cmd-Enter"]: () => console.log("cmd-enter"),
+			["Ctrl-Enter"]: () => console.log("ctrl-enter")
+			// ["Shift-Enter"]: () => console.log("shift-enter")
+		}
+  };
+
+  export const options_cm2 = {
+    lineNumbers: true,
+    lineWrapping: true,
+    indentWithTabs: true,
+    indentUnit: 2,
+    tabSize: 2,
+    value: "",
+    mode: "ebnf",
+    readOnly: false,
+    autoCloseBrackets: true,
+    autoCloseTags: true,
+    extraKeys: {
+			// ["Cmd-Enter"]: () => console.log("cmd-enter"),
+			// ["Ctrl-Enter"]: () => console.log("ctrl-enter"),
+			["Shift-Enter"]: () => console.log("shift-enter")
+		}
+  };
+
+	// onMount(async () => {
+  //   cm1.set(value1, "ebnf");
+  //   cm2.set(value2, "js");
+	// });
+
 	onMount(async () => {
-    cm1.set(value1, "ebnf");
-    cm2.set(value2, "js");
+    cm1.set(value1, options_cm1);
+    cm2.set(value2, options_cm2);
 	});
 
 

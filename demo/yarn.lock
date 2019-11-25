@@ -1605,10 +1605,9 @@ supports-color@^6.1.0:
   dependencies:
     has-flag "^3.0.0"
 
-svelte-codemirror@^1.2.0:
+"svelte-codemirror@https://github.com/frantic0/svelte-codemirror.git":
   version "1.2.1"
-  resolved "https://registry.yarnpkg.com/svelte-codemirror/-/svelte-codemirror-1.2.1.tgz#fb50cf6c7f80eabf8fb1b284d4e2e98f37ccf02d"
-  integrity sha512-84mLVSGCy5x3fuH/PvGtlzBJSHeFTWVlPc4ZMvmPZOqh/aP2JqLE/XGzk2iqGMzph/jZs2IDQva4ZaM8m5Q6Aw==
+  resolved "https://github.com/frantic0/svelte-codemirror.git#4080e43c490bce1ce5e5335ba9290e0b7b37d0f4"
   dependencies:
     codemirror "^5.47.0"
     rollup-plugin-node-resolve "^5.0.3"
