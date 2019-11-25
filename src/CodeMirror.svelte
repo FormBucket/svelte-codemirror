@@ -49,25 +49,12 @@
   let mode;
 
   /**
-   * We have to expose set and update methods, rather
+   * [Original Comment] We have to expose set and update methods, rather
    * than making this state-driven through props, 
    * because it's difficult to update an editor
    * without resetting scroll otherwise
- 
-  export async function set(new_value, new_mode) {
-    if (new_mode !== mode) {
-      await createEditor((mode = new_mode));
-    }
-
-    value = new_value;
-    updating_externally = true;
-    if (editor) editor.setValue(value);
-    updating_externally = false;
-  }
-   */
-
-  /** 
-   * We want to expose the full options list
+   * 
+   * [My comment] We want to expose the full options list
    */ 
   export async function set(newValue, newOptions) {
     if (options !== newOptions) {
