@@ -19,15 +19,12 @@
   const dispatch = createEventDispatcher();
 
   export let value = "";
-  export let readonly = false;
   export let errorLoc = null;
   export const flex = false;
-  // export let lineNumbers = true;
-  // export let tab = true;
 
   // Make options a prop 
-  export const options = {
-    lineNumbers: true,
+  export let options = {
+    lineNumbers: false,
     lineWrapping: true,
     indentWithTabs: true,
     indentUnit: 2,
@@ -48,31 +45,23 @@
   let h;
   let mode;
 
-  /**
-   * [Original Comment] We have to expose set and update methods, rather
-   * than making this state-driven through props, 
-   * because it's difficult to update an editor
-   * without resetting scroll otherwise
-   * 
-   * [My comment] We want to expose the full options list
-   */ 
   export async function set(newValue, newOptions) {
-    if (options !== newOptions) {
-      await createEditor((options = newOptions));
-    }
-
-    value = new_value;
+    
+    await createEditor((options = newOptions));
+    
+    value = newValue;
     updating_externally = true;
+    
     if (editor) editor.setValue(value);
     updating_externally = false;
   }
 
-  export function update(new_value) {
-    value = new_value;
+  export function update(newValue) {
+    value = newValue;
 
     if (editor) {
       const { left, top } = editor.getScrollInfo();
-      editor.setValue((value = new_value));
+      editor.setValue((value = newValue));
       editor.scrollTo(left, top);
     }
   }
@@ -84,25 +73,6 @@
   export function focus() {
     editor.focus();
   }
-
-  const modes = {
-    js: {
-      name: "javascript",
-      json: false
-    },
-    json: {
-      name: "javascript",
-      json: true
-    },
-    svelte: {
-      name: "handlebars",
-      base: "text/html"
-    },
-    ebnf: {
-      name: "ebnf",
-      base: "text/html"
-    }
-  };
 
   const refs = {};
   let editor;
@@ -171,14 +141,7 @@
 
   let first = true;
 
-  /**
-   * Extract this to the client 
-   */
 
-
-  /**
-   * We want to expose the full options list
-   */
   async function createEditor(options) {
     if (destroyed || !CodeMirror) return;
 
@@ -204,59 +167,6 @@
 
     first = false;
   }
-   
-
-
-  /** 
-   * Ye Olde createEditor, just with 'mode' configurable 
-
-  async function createEditor(mode) {
-    if (destroyed || !CodeMirror) return;
-
-    if (editor) editor.toTextArea();
-
-    const opts = {
-      lineNumbers,
-      lineWrapping: true,
-      indentWithTabs: true,
-      indentUnit: 2,
-      tabSize: 2,
-      value: "",
-      mode: modes[mode] || {
-        name: mode
-      },
-      readOnly: readonly,
-      autoCloseBrackets: true,
-      autoCloseTags: true
-    };
-
-    if (!tab)
-      opts.extraKeys = {
-        Tab: tab,
-        "Shift-Tab": tab
-      };
-
-    // Creating a text editor is a lot of work, so we yield
-    // the main thread for a moment. This helps reduce jank
-    if (first) await sleep(50);
-
-    if (destroyed) return;
-
-    editor = CodeMirror.fromTextArea(refs.editor, opts);
-
-    editor.on("change", instance => {
-      if (!updating_externally) {
-        const value = instance.getValue();
-        dispatch("change", { value });
-      }
-    });
-
-    if (first) await sleep(50);
-    editor.refresh();
-
-    first = false;
-  }
-  */ 
 
   function sleep(ms) {
     return new Promise(fulfil => setTimeout(fulfil, ms));

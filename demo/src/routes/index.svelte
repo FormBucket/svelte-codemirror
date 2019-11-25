@@ -12,11 +12,11 @@
 <script>
   import { onMount } from "svelte";
   let value1 = "const { PORT, NODE_ENV } = process.env; const dev = NODE_ENV === 'development'; export function update(new_value) { value = new_value; let cm1; let cm2; };";
-  let value2 = "MD -> MD _ '*' _ E  {% function(d) {return {type: 'M', d:d, v:d[0].v*d[4].v}} %}";
+  let value2 = "MAIN -> SENTENCE '.' SENTENCE -> SUB _ VERB _ MOD  MD -> MD _ '*' _ E  {% function(d) {return {type: 'M', d:d, v:d[0].v*d[4].v}} %}";
 
   let cm1, cm2;
 
-  export const options_cm1 = {
+  let options_cm1 = {
     lineNumbers: true,
     lineWrapping: true,
     indentWithTabs: true,
@@ -34,7 +34,7 @@
 		}
   };
 
-  export const options_cm2 = {
+  let options_cm2 = {
     lineNumbers: true,
     lineWrapping: true,
     indentWithTabs: true,
