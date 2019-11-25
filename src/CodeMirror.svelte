@@ -22,8 +22,7 @@
   export let errorLoc = null;
   export const flex = false;
 
-  // Make options a prop 
-  export let options = {
+  let options = {
     lineNumbers: false,
     lineWrapping: true,
     indentWithTabs: true,
@@ -35,8 +34,8 @@
     autoCloseBrackets: true,
     autoCloseTags: true,
     extraKeys: {
-			["Cmd-Enter"]: () => console.log("cmd-enter"),
-			["Ctrl-Enter"]: () => console.log("ctrl-enter"),
+			["Cmd-Enter"]: (() => console.log("cmd-enter")),
+			["Ctrl-Enter"]: (() => console.log("ctrl-enter")),
 			["Shift-Enter"]: () => console.log("shift-enter")
 		}
   };
@@ -45,9 +44,15 @@
   let h;
   let mode;
 
+  function compare(a, b) {
+    return JSON.stringify(a) === JSON.stringify(b);
+  } 
+
   export async function set(newValue, newOptions) {
-    
-    await createEditor((options = newOptions));
+    if (!compare(newOptions, options)) {
+      await createEditor((options = newOptions));
+    }  
+    await createEditor();
     
     value = newValue;
     updating_externally = true;

@@ -28,8 +28,8 @@
     autoCloseBrackets: true,
     autoCloseTags: true,
     extraKeys: {
-			["Cmd-Enter"]: () => console.log("cmd-enter"),
-			["Ctrl-Enter"]: () => console.log("ctrl-enter")
+			["Cmd-Enter"]: (() => console.log("cmd-enter")),
+			["Ctrl-Enter"]: (() => console.log("ctrl-enter"))
 			// ["Shift-Enter"]: () => console.log("shift-enter")
 		}
   };
@@ -47,8 +47,8 @@
     autoCloseTags: true,
     extraKeys: {
 			// ["Cmd-Enter"]: () => console.log("cmd-enter"),
-			// ["Ctrl-Enter"]: () => console.log("ctrl-enter"),
-			["Shift-Enter"]: () => console.log("shift-enter")
+			["Ctrl-Enter"]: (() => console.log("ctrl-enter"))(),
+			// ["Shift-Enter"]: (() => console.log("shift-enter"))()
 		}
   };
 
@@ -58,7 +58,9 @@
 	// });
 
 	onMount(async () => {
+    console.log(options_cm1)
     cm1.set(value1, options_cm1);
+    console.log(options_cm2)
     cm2.set(value2, options_cm2);
 	});
 
