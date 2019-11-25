@@ -15,7 +15,7 @@
     "compression": "^1.7.1",
     "polka": "^0.5.0",
     "sirv": "^0.4.0",
-    "svelte-codemirror": "^1.2.0"
+    "svelte-codemirror": "https://github.com/frantic0/svelte-codemirror.git"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
