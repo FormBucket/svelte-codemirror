@@ -25,17 +25,53 @@
   export let lineNumbers = true;
   export let tab = true;
 
+  // Make options a prop 
+  export let options = {
+    lineNumbers: true,
+    lineWrapping: true,
+    indentWithTabs: true,
+    indentUnit: 2,
+    tabSize: 2,
+    value: "",
+    mode: "javascript",
+    readOnly: readonly,
+    autoCloseBrackets: true,
+    autoCloseTags: true,
+    extraKeys: {
+			["Cmd-Enter"]: () => console.log("cmd-enter"),
+			["Ctrl-Enter"]: () => console.log("ctrl-enter"),
+			["Shift-Enter"]: () => console.log("shift-enter")
+		}
+  };
+
   let w;
   let h;
   let mode;
 
-  // We have to expose set and update methods, rather
-  // than making this state-driven through props,
-  // because it's difficult to update an editor
-  // without resetting scroll otherwise
+  /**
+   * We have to expose set and update methods, rather
+   * than making this state-driven through props, 
+   * because it's difficult to update an editor
+   * without resetting scroll otherwise
+ 
   export async function set(new_value, new_mode) {
     if (new_mode !== mode) {
       await createEditor((mode = new_mode));
+    }
+
+    value = new_value;
+    updating_externally = true;
+    if (editor) editor.setValue(value);
+    updating_externally = false;
+  }
+   */
+
+  /** 
+   * We want to expose the full options list
+   */ 
+  export async function set(new_value, options) {
+    if (new_mode !== mode) {
+      await createEditor((options = options));
     }
 
     value = new_value;
@@ -73,6 +109,10 @@
     },
     svelte: {
       name: "handlebars",
+      base: "text/html"
+    },
+    ebnf: {
+      name: "ebnf",
       base: "text/html"
     }
   };
@@ -144,6 +184,45 @@
 
   let first = true;
 
+  /**
+   * Extract this to the client 
+   */
+
+
+  /**
+   * We want to expose the full options list
+   */
+  async function createEditor(options) {
+    if (destroyed || !CodeMirror) return;
+
+    if (editor) editor.toTextArea();
+   
+    // Creating a text editor is a lot of work, so we yield
+    // the main thread for a moment. This helps reduce jank
+    if (first) await sleep(50);
+
+    if (destroyed) return;
+
+    editor = CodeMirror.fromTextArea(refs.editor, options);
+
+    editor.on("change", instance => {
+      if (!updating_externally) {
+        const value = instance.getValue();
+        dispatch("change", { value });
+      }
+    });
+
+    if (first) await sleep(50);
+    editor.refresh();
+
+    first = false;
+  }
+   
+
+
+  /** 
+   * Ye Olde createEditor, just with 'mode' configurable 
+
   async function createEditor(mode) {
     if (destroyed || !CodeMirror) return;
 
@@ -190,6 +269,7 @@
 
     first = false;
   }
+  */ 
 
   function sleep(ms) {
     return new Promise(fulfil => setTimeout(fulfil, ms));

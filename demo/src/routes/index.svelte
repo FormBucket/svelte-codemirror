@@ -1,7 +1,7 @@
 <script context="module">
   const is_browser = typeof window !== "undefined";
 
-  import CodeMirror from "svelte-codemirror";
+  import CodeMirror, { set, update } from "svelte-codemirror";
   import "codemirror/lib/codemirror.css";
 
   if (is_browser) {
@@ -10,7 +10,18 @@
 </script>
 
 <script>
-  let value = "fooo";
+  import { onMount } from "svelte";
+  let value1 = "const { PORT, NODE_ENV } = process.env; const dev = NODE_ENV === 'development'; export function update(new_value) { value = new_value; let cm1; let cm2; };";
+  let value2 = "MD -> MD _ '*' _ E  {% function(d) {return {type: 'M', d:d, v:d[0].v*d[4].v}} %}";
+
+  let cm1, cm2;
+
+	onMount(async () => {
+    cm1.set(value1, "ebnf");
+    cm2.set(value2, "js");
+	});
+
+
 </script>
 
 <style>
@@ -58,5 +69,9 @@
 </svelte:head>
 
 <div class="codemirror-container flex">
-  <CodeMirror {value} />
+  <CodeMirror bind:this={cm1} bind:value={value1} />
+  <br>
+  <CodeMirror bind:this={cm2} bind:value={value2} />
+  <br>
+  <button on:click="{ () => { value1 += value1 + '1'; cm2.update(value1); console.log(value1); }}" >Press me!</button>
 </div>
