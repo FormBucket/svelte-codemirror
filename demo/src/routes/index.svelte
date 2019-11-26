@@ -15,42 +15,10 @@
   let value2 = "MAIN -> SENTENCE '.' SENTENCE -> SUB _ VERB _ MOD  MD -> MD _ '*' _ E  {% function(d) {return {type: 'M', d:d, v:d[0].v*d[4].v}} %}";
 
   let cm1, cm2;
-
-  let options_cm1 = {
-    lineNumbers: true,
-    lineWrapping: true,
-    indentWithTabs: true,
-    indentUnit: 2,
-    tabSize: 2,
-    value: "",
-    mode: "javascript",
-    readOnly: false,
-    autoCloseBrackets: true,
-    autoCloseTags: true,
-    extraKeys: {
-			["Cmd-Enter"]: (() => console.log("cmd-enter")),
-			["Ctrl-Enter"]: (() => console.log("ctrl-enter"))
-			// ["Shift-Enter"]: () => console.log("shift-enter")
-		}
-  };
-
-  let options_cm2 = {
-    lineNumbers: true,
-    lineWrapping: true,
-    indentWithTabs: true,
-    indentUnit: 2,
-    tabSize: 2,
-    value: "",
-    mode: "ebnf",
-    readOnly: false,
-    autoCloseBrackets: true,
-    autoCloseTags: true,
-    extraKeys: {
-			// ["Cmd-Enter"]: () => console.log("cmd-enter"),
-			["Ctrl-Enter"]: (() => console.log("ctrl-enter")),
-			// ["Shift-Enter"]: (() => console.log("shift-enter"))()
-		}
-  };
+ 
+  let cmdEnter = () => console.log("cmd-Enter");
+  let cmdPeriod = () => console.log("cmd-.");
+  let ctrlEnter = () => console.log("ctrl-.");
 
 	// onMount(async () => {
   //   cm1.set(value1, "ebnf");
@@ -58,10 +26,13 @@
 	// });
 
 	onMount(async () => {
-    console.log(options_cm1)
-    cm1.set(value1, options_cm1);
-    console.log(options_cm2)
-    cm2.set(value2, options_cm2);
+    // console.log(options_cm1)
+    // cm1.set(value1, options_cm1);
+    cm1.set(value1, "js");
+    
+    // console.log(options_cm2)
+    // cm2.set(value2, options_cm2);
+    cm2.set(value2, "ebnf");
 	});
 
 
@@ -112,9 +83,9 @@
 </svelte:head>
 
 <div class="codemirror-container flex">
-  <CodeMirror bind:this={cm1} bind:value={value1} />
+  <CodeMirror bind:this={cm1} bind:value={value1} tab={false} cmdEnter={cmdEnter} cmdPeriod={cmdPeriod} ctrlEnter={ctrlEnter}/>
   <br>
-  <CodeMirror bind:this={cm2} bind:value={value2} />
+  <CodeMirror bind:this={cm2} bind:value={value2} ctrlEnter={ctrlEnter} cmdPeriod={cmdPeriod}/>
   <br>
   <button on:click="{ () => { value1 += value1 + '1'; cm2.update(value1); console.log(value1); }}" >Press me!</button>
 </div>

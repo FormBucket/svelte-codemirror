@@ -21,9 +21,18 @@
   export let value = "";
   export let readonly = false;
   export let errorLoc = null;
-  export let flex = false;
+  // export let flex = false;
   export let lineNumbers = true;
   export let tab = true;
+
+  export let cmdEnter = null;
+  export let ctrlEnter = null;
+  export let shiftEnter = null;
+  export let cmdPeriod  = null;
+  export let cmdHiffen  = null;
+  export let cmdEqual   = null;
+  export let cmdOpenSquareBracket = null;
+  export let cmdCloseSquareBracket = null;
 
   let w;
   let h;
@@ -70,6 +79,10 @@
     json: {
       name: "javascript",
       json: true
+    },
+    ebnf: {
+      name: "ebnf",
+      base: "text/html" 
     },
     svelte: {
       name: "handlebars",
@@ -161,14 +174,43 @@
       },
       readOnly: readonly,
       autoCloseBrackets: true,
-      autoCloseTags: true
+      autoCloseTags: true,
+      extraKeys: {}
     };
 
     if (!tab)
       opts.extraKeys = {
         Tab: tab,
-        "Shift-Tab": tab
+        "Shift-Tab": tab,
       };
+
+    if(cmdEnter)
+      opts.extraKeys["Cmd-Enter"] = (cmdEnter);
+
+    if(ctrlEnter)
+      opts.extraKeys["Ctrl-Enter"] = (ctrlEnter);
+
+    if(shiftEnter)
+      opts.extraKeys["Shift-Enter"] = (shiftEnter);
+
+    if(cmdPeriod)
+      opts.extraKeys["Cmd-."] = (cmdPeriod);
+
+    if(cmdHiffen)
+      opts.extraKeys["Cmd--"] = (cmdHiffen);
+
+    if(cmdEqual)
+      opts.extraKeys["Cmd-="] = (cmdEqual);
+
+    if(cmdCloseSquareBracket)
+      opts.extraKeys["Cmd-]"] = (cmdCloseSquareBracket);
+
+    if(cmdOpenSquareBracket)
+      opts.extraKeys["Cmd-["] = (cmdOpenSquareBracket);      
+
+    // if(cmdEnter && !opts.extraKeys["Cmd-Enter"])
+    //   opts.extraKeys["Cmd-Enter"] = (cmdEnter);
+
 
     // Creating a text editor is a lot of work, so we yield
     // the main thread for a moment. This helps reduce jank
