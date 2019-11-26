@@ -47,7 +47,7 @@
     autoCloseTags: true,
     extraKeys: {
 			// ["Cmd-Enter"]: () => console.log("cmd-enter"),
-			["Ctrl-Enter"]: (() => console.log("ctrl-enter"))(),
+			["Ctrl-Enter"]: (() => console.log("ctrl-enter")),
 			// ["Shift-Enter"]: (() => console.log("shift-enter"))()
 		}
   };

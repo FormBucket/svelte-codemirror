@@ -19,54 +19,37 @@
   const dispatch = createEventDispatcher();
 
   export let value = "";
+  export let readonly = false;
   export let errorLoc = null;
-  export const flex = false;
-
-  let options = {
-    lineNumbers: false,
-    lineWrapping: true,
-    indentWithTabs: true,
-    indentUnit: 2,
-    tabSize: 2,
-    value: "",
-    mode: "javascript",
-    readOnly: false,
-    autoCloseBrackets: true,
-    autoCloseTags: true,
-    extraKeys: {
-			["Cmd-Enter"]: (() => console.log("cmd-enter")),
-			["Ctrl-Enter"]: (() => console.log("ctrl-enter")),
-			["Shift-Enter"]: () => console.log("shift-enter")
-		}
-  };
+  export let flex = false;
+  export let lineNumbers = true;
+  export let tab = true;
 
   let w;
   let h;
   let mode;
 
-  function compare(a, b) {
-    return JSON.stringify(a) === JSON.stringify(b);
-  } 
+  // We have to expose set and update methods, rather
+  // than making this state-driven through props,
+  // because it's difficult to update an editor
+  // without resetting scroll otherwise
+  export async function set(new_value, new_mode) {
+    if (new_mode !== mode) {
+      await createEditor((mode = new_mode));
+    }
 
-  export async function set(newValue, newOptions) {
-    if (!compare(newOptions, options)) {
-      await createEditor((options = newOptions));
-    }  
-    await createEditor();
-    
-    value = newValue;
+    value = new_value;
     updating_externally = true;
-    
     if (editor) editor.setValue(value);
     updating_externally = false;
   }
 
-  export function update(newValue) {
-    value = newValue;
+  export function update(new_value) {
+    value = new_value;
 
     if (editor) {
       const { left, top } = editor.getScrollInfo();
-      editor.setValue((value = newValue));
+      editor.setValue((value = new_value));
       editor.scrollTo(left, top);
     }
   }
@@ -78,6 +61,21 @@
   export function focus() {
     editor.focus();
   }
+
+  const modes = {
+    js: {
+      name: "javascript",
+      json: false
+    },
+    json: {
+      name: "javascript",
+      json: true
+    },
+    svelte: {
+      name: "handlebars",
+      base: "text/html"
+    }
+  };
 
   const refs = {};
   let editor;
@@ -146,19 +144,39 @@
 
   let first = true;
 
-
-  async function createEditor(options) {
+  async function createEditor(mode) {
     if (destroyed || !CodeMirror) return;
 
     if (editor) editor.toTextArea();
-   
+
+    const opts = {
+      lineNumbers,
+      lineWrapping: true,
+      indentWithTabs: true,
+      indentUnit: 2,
+      tabSize: 2,
+      value: "",
+      mode: modes[mode] || {
+        name: mode
+      },
+      readOnly: readonly,
+      autoCloseBrackets: true,
+      autoCloseTags: true
+    };
+
+    if (!tab)
+      opts.extraKeys = {
+        Tab: tab,
+        "Shift-Tab": tab
+      };
+
     // Creating a text editor is a lot of work, so we yield
     // the main thread for a moment. This helps reduce jank
     if (first) await sleep(50);
 
     if (destroyed) return;
 
-    editor = CodeMirror.fromTextArea(refs.editor, options);
+    editor = CodeMirror.fromTextArea(refs.editor, opts);
 
     editor.on("change", instance => {
       if (!updating_externally) {
