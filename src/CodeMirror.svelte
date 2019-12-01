@@ -87,6 +87,10 @@
     svelte: {
       name: "handlebars",
       base: "text/html"
+    },
+    sema: {
+      name: "sema",
+      base: "text/html"
     }
   };
 

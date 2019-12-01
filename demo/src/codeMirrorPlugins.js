@@ -11,3 +11,4 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/keymap/vim.js';
 import 'codemirror/addon/mode/multiplex';
 import './theme.css';
+import "./sema.css";
