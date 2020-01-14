@@ -53,43 +53,11 @@
     updating_externally = false;
   }
 
-    export async function set(new_value, new_mode) {
-    if (new_mode !== mode) {
-      await createEditor((mode = new_mode));
-    }
-
-    value = new_value;
-    updating_externally = true;
-    if (editor) editor.setValue(value);
-    updating_externally = false;
-  }
-
-
-
-
-  export function update(new_value) {
-    value = new_value;
-
-    if (editor) {
-      const { left, top } = editor.getScrollInfo();
-      editor.setValue((value = new_value));
-      editor.scrollTo(left, top);
-    }
-  }
-
-  export function resize() {
-    editor.refresh();
-  }
-
-  export function focus() {
-    editor.focus();
-  }
-
   /*
    * Find code between dividers,
    * const divider = "__________";
   */  
-  export function getBlock(editor) {
+  function getBlock(editor) {
     
     let cursorInfo = editor.getCursor();
     //find post divider
@@ -128,6 +96,25 @@
     return code;
   }
 
+
+  export function update(new_value) {
+    value = new_value;
+
+    if (editor) {
+      const { left, top } = editor.getScrollInfo();
+      editor.setValue((value = new_value));
+      editor.scrollTo(left, top);
+    }
+  }
+
+  export function resize() {
+    editor.refresh();
+  }
+
+  export function focus() {
+    editor.focus();
+  }
+
   const modes = {
     js: {
       name: "javascript",
@@ -152,9 +139,7 @@
   };
 
   const refs = {};
-
-  let editor; // instance
-
+  let editor;
   let updating_externally = false;
   let marker;
   let error_line;
