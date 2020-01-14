@@ -34,9 +34,7 @@
   export let cmdOpenSquareBracket = null;
   export let cmdCloseSquareBracket = null;
 
-  let w;
-  let h;
-  let mode;
+
 
   // We have to expose set and update methods, rather
   // than making this state-driven through props,
@@ -53,6 +51,15 @@
     updating_externally = false;
   }
 
+  export function update(new_value) {
+    value = new_value;
+
+    if (editor) {
+      const { left, top } = editor.getScrollInfo();
+      editor.setValue((value = new_value));
+      editor.scrollTo(left, top);
+    }
+  }
 
   export function getSelection() {
     if (editor) {
@@ -61,6 +68,8 @@
         let cursorInfo = editor.getCursor();
         expression = editor.getDoc().getLine(cursorInfo.line);
       } 
+      return expression;
+    }
   }
 
   /*
@@ -109,15 +118,6 @@
   }
 
 
-  export function update(new_value) {
-    value = new_value;
-
-    if (editor) {
-      const { left, top } = editor.getScrollInfo();
-      editor.setValue((value = new_value));
-      editor.scrollTo(left, top);
-    }
-  }
 
   export function resize() {
     editor.refresh();
@@ -126,6 +126,10 @@
   export function focus() {
     editor.focus();
   }
+
+  let w;
+  let h;
+  let mode;
 
   const modes = {
     js: {
