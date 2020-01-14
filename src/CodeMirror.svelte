@@ -57,7 +57,7 @@
    * Find code between dividers,
    * const divider = "__________";
   */  
-  function getBlock(editor) {
+  export function getBlock() {
     
     let cursorInfo = editor.getCursor();
     //find post divider
