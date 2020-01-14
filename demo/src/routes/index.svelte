@@ -28,7 +28,7 @@
 	onMount(async () => {
     // console.log(options_cm1)
     // cm1.set(value1, options_cm1);
-    cm1.set(value1, "js");
+    cm1.set(value1, "sema");
     
     // console.log(options_cm2)
     // cm2.set(value2, options_cm2);
@@ -53,6 +53,13 @@
     background: transparent;
     font: 400 14px/1.7 var(--font-mono);
     color: var(--base);
+  }
+
+  .codemirror-container-sema {
+    height: 100%;
+    background: transparent;
+    font: 400 14px/1.7 var(--font-mono);
+    color: whitesmoke;
   }
 
   .codemirror-container.flex :global(.CodeMirror) {
@@ -83,7 +90,9 @@
 </svelte:head>
 
 <div class="codemirror-container flex">
-  <CodeMirror bind:this={cm1} bind:value={value1} tab={false} cmdEnter={cmdEnter} cmdPeriod={cmdPeriod} ctrlEnter={ctrlEnter}/>
+  <div class="codemirror-container-sema">
+    <CodeMirror  bind:this={cm1} bind:value={value1} tab={false} cmdEnter={cmdEnter} cmdPeriod={cmdPeriod} ctrlEnter={ctrlEnter}/>
+  </div>
   <br>
   <CodeMirror bind:this={cm2} bind:value={value2} ctrlEnter={ctrlEnter} cmdPeriod={cmdPeriod}/>
   <br>
