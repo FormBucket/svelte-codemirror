@@ -1614,7 +1614,7 @@ supports-color@^6.1.0:
 
 "svelte-codemirror@https://github.com/frantic0/svelte-codemirror.git":
   version "1.2.1"
-  resolved "https://github.com/frantic0/svelte-codemirror.git#e1a02a2a3f155ef37518008a2e216616558243b9"
+  resolved "https://github.com/frantic0/svelte-codemirror.git#bb5a096e6f93e45a4cd2ffee33da97982bc1a7ed"
   dependencies:
     codemirror "^5.49.2"
     rollup-plugin-node-resolve "^5.0.3"
