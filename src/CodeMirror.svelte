@@ -54,7 +54,7 @@
 
   export async function set(new_value, new_mode, new_theme) {
     if (new_mode !== mode) {
-      await createEditor((mode = new_mode), new_theme);
+      await createEditor((mode = new_mode), (theme = new_theme));
     }
 
     value = new_value;
@@ -238,6 +238,8 @@
 
     if (editor) editor.toTextArea();
 
+    console.log("createEditor:", theme);
+    
     const opts = {
       lineNumbers,
       lineWrapping: true,
