@@ -160,6 +160,10 @@
       name: "handlebars",
       base: "text/html"
     },
+    closure: {
+      name: "closure",
+      base: "text/x-clojure"
+    },
     sema: {
       name: "sema",
       base: "text/html"

@@ -11,7 +11,7 @@
 
 <script>
   import { onMount } from "svelte";
-  let value1 = "const { PORT, NODE_ENV } = process.env; const dev = NODE_ENV === 'development'; export function update(new_value) { value = new_value; let cm1; let cm2; };";
+  let value1 = `:b:{{1,0.25}imp}\909b;:s:{{1,0.25}imp}\909;:c:{{{1,0.66}imp,{1,0.8}imp}add}\909closed;:o:{{0.25,0.75}imp}\909open`;
   let value2 = "MAIN -> SENTENCE '.' SENTENCE -> SUB _ VERB _ MOD  MD -> MD _ '*' _ E  {% function(d) {return {type: 'M', d:d, v:d[0].v*d[4].v}} %}";
 
   let cm1, cm2;
@@ -28,7 +28,7 @@
 	onMount(async () => {
     console.log(cm1)
     // cm1.set(value1, options_cm1);
-    cm1.set(value1, "sema", 'icecoder');
+    cm1.set(value1, "closure", 'monokai');
     
     // console.log(options_cm2)
     // cm2.set(value2, options_cm2);
@@ -45,6 +45,7 @@
     height: 100%;
     border: none;
     line-height: 1.5;
+    
     overflow: hidden;
   }
 
@@ -60,6 +61,7 @@
     background: transparent;
     font: 400 14px/1.7 var(--font-mono);
     color: whitesmoke;
+    background-color: gray;
   }
 
   .codemirror-container.flex :global(.CodeMirror) {
