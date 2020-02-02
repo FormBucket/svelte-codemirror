@@ -117,8 +117,6 @@
     }
   }
 
-
-
   export function resize() {
     editor.refresh();
   }
@@ -236,6 +234,7 @@
       mode: modes[mode] || {
         name: mode
       },
+      theme: 'monokai'
       readOnly: readonly,
       autoCloseBrackets: true,
       autoCloseTags: true,
