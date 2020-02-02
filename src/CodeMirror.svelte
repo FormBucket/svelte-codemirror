@@ -234,7 +234,7 @@
       mode: modes[mode] || {
         name: mode
       },
-      theme: 'monokai'
+      theme: 'monokai',
       readOnly: readonly,
       autoCloseBrackets: true,
       autoCloseTags: true,
