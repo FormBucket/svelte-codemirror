@@ -53,7 +53,7 @@
   // }
 
   export async function set(new_value, new_mode, new_theme) {
-    if (new_mode !== mode) {
+    if (new_mode !== mode || new_theme !== theme) {
       await createEditor((mode = new_mode), new_theme);
     }
 
@@ -141,6 +141,7 @@
   let w;
   let h;
   let mode;
+  let theme;
 
   const modes = {
     js: {
@@ -214,13 +215,13 @@
   onMount(() => {
     if (_CodeMirror) {
       CodeMirror = _CodeMirror;
-      createEditor(mode || "svelte").then(() => {
+      createEditor(mode || "svelte", theme).then(() => {
         if (editor) editor.setValue(value || "");
       });
     } else {
       codemirror_promise.then(async mod => {
         CodeMirror = mod.default;
-        await createEditor(mode || "svelte");
+        await createEditor(mode || "svelte", theme);
         if (editor) editor.setValue(value || "");
       });
     }
