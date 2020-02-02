@@ -161,8 +161,12 @@
       base: "text/html"
     },
     closure: {
-      name: "closure",
+      name: "clojure",
       base: "text/x-clojure"
+    },
+    asn : {
+      name: "asn.1",
+      base: "text/x-ttcn-asn"
     },
     sema: {
       name: "sema",

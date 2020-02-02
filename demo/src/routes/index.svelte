@@ -28,7 +28,7 @@
 	onMount(async () => {
     console.log(cm1)
     // cm1.set(value1, options_cm1);
-    cm1.set(value1, "closure", 'monokai');
+    cm1.set(value1, "asn.1", 'monokai');
     
     // console.log(options_cm2)
     // cm2.set(value2, options_cm2);
