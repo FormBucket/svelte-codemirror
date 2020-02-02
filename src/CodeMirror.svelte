@@ -152,6 +152,24 @@
     }
   };
 
+  const themes = {
+    default: {
+      name: "default",
+    },
+    monokai: {
+      name: "monokai",
+    },
+    cobalt: {
+      name: "cobalt",
+    },
+    icecoder: {
+      name: "icecoder",
+    },
+    shadowfox: {
+      name: "shadowfox",
+    }
+  };
+
   const refs = {};
   let editor;
   let updating_externally = false;
@@ -219,7 +237,7 @@
 
   let first = true;
 
-  async function createEditor(mode) {
+  async function createEditor(mode, theme) {
     if (destroyed || !CodeMirror) return;
 
     if (editor) editor.toTextArea();
@@ -234,7 +252,9 @@
       mode: modes[mode] || {
         name: mode
       },
-      theme: 'monokai',
+      theme: themes[theme] || {
+        name: theme
+      },
       readOnly: readonly,
       autoCloseBrackets: true,
       autoCloseTags: true,
