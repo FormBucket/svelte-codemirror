@@ -152,24 +152,7 @@
     }
   };
 
-  const themes = {
-    default: {
-      name: "default",
-    },
-    monokai: {
-      name: "monokai",
-    },
-    cobalt: {
-      name: "cobalt",
-    },
-    icecoder: {
-      name: "icecoder",
-    },
-    shadowfox: {
-      name: "shadowfox",
-    }
-  };
-
+ 
   const refs = {};
   let editor;
   let updating_externally = false;

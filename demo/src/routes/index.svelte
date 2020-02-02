@@ -26,9 +26,9 @@
 	// });
 
 	onMount(async () => {
-    // console.log(options_cm1)
+    console.log(cm1)
     // cm1.set(value1, options_cm1);
-    cm1.set(value1, "sema");
+    cm1.set(value1, "sema", 'monokai');
     
     // console.log(options_cm2)
     // cm2.set(value2, options_cm2);
