@@ -40,9 +40,21 @@
   // than making this state-driven through props,
   // because it's difficult to update an editor
   // without resetting scroll otherwise
-  export async function set(new_value, new_mode) {
+
+  // export async function set(new_value, new_mode) {
+  //   if (new_mode !== mode) {
+  //     await createEditor((mode = new_mode));
+  //   }
+
+  //   value = new_value;
+  //   updating_externally = true;
+  //   if (editor) editor.setValue(value);
+  //   updating_externally = false;
+  // }
+
+  export async function set(new_value, new_mode, new_theme) {
     if (new_mode !== mode) {
-      await createEditor((mode = new_mode));
+      await createEditor((mode = new_mode), new_theme);
     }
 
     value = new_value;
@@ -50,6 +62,7 @@
     if (editor) editor.setValue(value);
     updating_externally = false;
   }
+
 
   export function update(new_value) {
     value = new_value;
