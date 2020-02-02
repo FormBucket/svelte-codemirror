@@ -252,14 +252,15 @@
       mode: modes[mode] || {
         name: mode
       },
-      theme: themes[theme] || {
-        name: theme
-      },
       readOnly: readonly,
       autoCloseBrackets: true,
       autoCloseTags: true,
       extraKeys: {}
     };
+
+    if(theme !== undefined) 
+      opts.theme = theme;
+    
 
     if (!tab)
       opts.extraKeys = {
