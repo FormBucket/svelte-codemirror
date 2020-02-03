@@ -28,7 +28,7 @@
 	onMount(async () => {
     console.log(cm1)
     // cm1.set(value1, options_cm1);
-    cm1.set(value1, "asn.1", 'monokai');
+    cm1.set(value1, "js", 'monokai');
     
     // console.log(options_cm2)
     // cm2.set(value2, options_cm2);
@@ -45,10 +45,9 @@
     height: 100%;
     border: none;
     line-height: 1.5;
-    
     overflow: hidden;
   }
-
+/* 
   .codemirror-container :global(.CodeMirror) {
     height: 100%;
     background: transparent;
@@ -84,7 +83,7 @@
 
   .codemirror-container :global(.error-line) {
     background-color: rgba(200, 0, 0, 0.05);
-  }
+  } */
 </style>
 
 <svelte:head>

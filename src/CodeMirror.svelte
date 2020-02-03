@@ -36,21 +36,10 @@
 
 
 
-  // We have to expose set and update methods, rather
-  // than making this state-driven through props,
+  // [Original Comment] We have to expose set and update methods, 
+  // rather than making this state-driven through props,
   // because it's difficult to update an editor
   // without resetting scroll otherwise
-
-  // export async function set(new_value, new_mode) {
-  //   if (new_mode !== mode) {
-  //     await createEditor((mode = new_mode));
-  //   }
-
-  //   value = new_value;
-  //   updating_externally = true;
-  //   if (editor) editor.setValue(value);
-  //   updating_externally = false;
-  // }
 
   export async function set(new_value, new_mode, new_theme) {
     if (new_mode !== mode || new_theme !== theme) {
@@ -72,6 +61,12 @@
       editor.setValue((value = new_value));
       editor.scrollTo(left, top);
     }
+  }
+
+  export function getValue() {
+    if (editor) {
+      return editor.getValue();
+    } 
   }
 
   export function getSelection() {
