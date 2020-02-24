@@ -29,6 +29,7 @@
   export let ctrlEnter = null;
   export let shiftEnter = null;
   export let cmdPeriod  = null;
+  export let ctrlPeriod  = null;
   export let cmdHiffen  = null;
   export let cmdEqual   = null;
   export let cmdOpenSquareBracket = null;
@@ -281,6 +282,9 @@
 
     if(cmdPeriod)
       opts.extraKeys["Cmd-."] = (cmdPeriod);
+
+    if(ctrlPeriod)
+      opts.extraKeys["Ctrl-."] = (ctrlPeriod);
 
     if(cmdHiffen)
       opts.extraKeys["Cmd--"] = (cmdHiffen);
