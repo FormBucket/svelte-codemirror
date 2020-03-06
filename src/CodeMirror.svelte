@@ -317,8 +317,8 @@
     if(cmdForwardSlash)
       opts.extraKeys["Cmd-/"] = (cmdForwardSlash);
 
-    if(ctrlForwardSlash)
-      opts.extraKeys["Ctrl-/"] = (ctrlForwardSlash);      
+    // if(ctrlForwardSlash)
+    //   opts.extraKeys["Ctrl-/"] = (ctrlForwardSlash);      
 
     // if(cmdEnter && !opts.extraKeys["Cmd-Enter"])
     //   opts.extraKeys["Cmd-Enter"] = (cmdEnter);
