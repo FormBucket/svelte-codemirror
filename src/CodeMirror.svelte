@@ -33,8 +33,7 @@
   export let cmdEqual   = null;
   export let cmdOpenSquareBracket = null;
   export let cmdCloseSquareBracket = null;
-
-
+  export let cmdForwardSlash = null;
 
   // [Original Comment] We have to expose set and update methods, 
   // rather than making this state-driven through props,
