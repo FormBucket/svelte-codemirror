@@ -101,7 +101,7 @@
 
     const css = {
     	code: "textarea.svelte-1jpkv2x{visibility:hidden}pre.svelte-1jpkv2x{position:absolute;width:100%;height:100%;top:0;left:0;border:none;padding:4px 4px 4px 60px;resize:none;font-family:var(--font-mono);font-size:13px;line-height:1.7;user-select:none;pointer-events:none;color:#ccc;tab-size:2;-moz-tab-size:2}",
-    	map: "{\"version\":3,\"file\":\"CodeMirror.svelte\",\"sources\":[\"CodeMirror.svelte\"],\"sourcesContent\":[\"<script context=\\\"module\\\">\\n  const is_browser = typeof window !== \\\"undefined\\\";\\n\\n  let codemirror_promise;\\n  let _CodeMirror;\\n\\n  if (is_browser) {\\n    codemirror_promise = import(\\\"codemirror\\\");\\n\\n    codemirror_promise.then(mod => {\\n      _CodeMirror = mod.default;\\n    });\\n  }\\n</script>\\n\\n<script>\\n  import { onMount, createEventDispatcher } from \\\"svelte\\\";\\n\\n  const dispatch = createEventDispatcher();\\n\\n  export let value = \\\"\\\";\\n  export let readonly = false;\\n  export let errorLoc = null;\\n  // export let flex = false;\\n  export let lineNumbers = true;\\n  export let tab = true;\\n\\n  export let cmdEnter = null;\\n  export let ctrlEnter = null;\\n  export let shiftEnter = null;\\n  export let cmdPeriod  = null;\\n  export let cmdHiffen  = null;\\n  export let cmdEqual   = null;\\n  export let cmdOpenSquareBracket = null;\\n  export let cmdCloseSquareBracket = null;\\n\\n\\n\\n  // We have to expose set and update methods, rather\\n  // than making this state-driven through props,\\n  // because it's difficult to update an editor\\n  // without resetting scroll otherwise\\n  export async function set(new_value, new_mode) {\\n    if (new_mode !== mode) {\\n      await createEditor((mode = new_mode));\\n    }\\n\\n    value = new_value;\\n    updating_externally = true;\\n    if (editor) editor.setValue(value);\\n    updating_externally = false;\\n  }\\n\\n  export function update(new_value) {\\n    value = new_value;\\n\\n    if (editor) {\\n      const { left, top } = editor.getScrollInfo();\\n      editor.setValue((value = new_value));\\n      editor.scrollTo(left, top);\\n    }\\n  }\\n\\n  export function getSelection() {\\n    if (editor) {\\n      let expression = editor.getSelection();\\n      if (expression == \\\"\\\") {\\n        let cursorInfo = editor.getCursor();\\n        expression = editor.getDoc().getLine(cursorInfo.line);\\n      } \\n      return expression;\\n    }\\n  }\\n\\n  /*\\n   * Find code between dividers,\\n   * const divider = \\\"__________\\\";\\n  */  \\n  export function getBlock() {\\n    \\n    if (editor) {\\n      let cursorInfo = editor.getCursor();\\n      //find post divider\\n      let line = cursorInfo.line;\\n      let linePost = editor.lastLine();\\n\\n      while (line < linePost) {\\n        if (/___+/.test(editor.getLine(line))) {  // Test RegEx at least 3 underscores\\n          linePost = line - 1;\\n          break;\\n        }\\n        line++;\\n      }\\n\\n      line = cursorInfo.line;\\n      let linePre = -1;\\n      while (line >= 0) {\\n        // console.log(editor2.getLine(line));\\n        if (/___+/.test(editor.getLine(line))) {\\n          linePre = line;\\n          break;\\n        }\\n        line--;\\n      }\\n      if (linePre > -1) {\\n        linePre++;\\n      }\\n      let code = editor.getRange({\\n        line: linePre,\\n        ch: 0\\n      }, {\\n        line: linePost + 1,\\n        ch: 0\\n      });\\n\\n      return code;\\n    }\\n  }\\n\\n\\n\\n  export function resize() {\\n    editor.refresh();\\n  }\\n\\n  export function focus() {\\n    editor.focus();\\n  }\\n\\n  let w;\\n  let h;\\n  let mode;\\n\\n  const modes = {\\n    js: {\\n      name: \\\"javascript\\\",\\n      json: false\\n    },\\n    json: {\\n      name: \\\"javascript\\\",\\n      json: true\\n    },\\n    ebnf: {\\n      name: \\\"ebnf\\\",\\n      base: \\\"text/html\\\" \\n    },\\n    svelte: {\\n      name: \\\"handlebars\\\",\\n      base: \\\"text/html\\\"\\n    },\\n    sema: {\\n      name: \\\"sema\\\",\\n      base: \\\"text/html\\\"\\n    }\\n  };\\n\\n  const refs = {};\\n  let editor;\\n  let updating_externally = false;\\n  let marker;\\n  let error_line;\\n  let destroyed = false;\\n  let CodeMirror;\\n\\n  $: if (editor && w && h) {\\n    editor.refresh();\\n  }\\n\\n  $: {\\n    if (marker) marker.clear();\\n\\n    if (errorLoc) {\\n      const line = errorLoc.line - 1;\\n      const ch = errorLoc.column;\\n\\n      marker = editor.markText(\\n        { line, ch },\\n        { line, ch: ch + 1 },\\n        {\\n          className: \\\"error-loc\\\"\\n        }\\n      );\\n\\n      error_line = line;\\n    } else {\\n      error_line = null;\\n    }\\n  }\\n\\n  let previous_error_line;\\n  $: if (editor) {\\n    if (previous_error_line != null) {\\n      editor.removeLineClass(previous_error_line, \\\"wrap\\\", \\\"error-line\\\");\\n    }\\n\\n    if (error_line && error_line !== previous_error_line) {\\n      editor.addLineClass(error_line, \\\"wrap\\\", \\\"error-line\\\");\\n      previous_error_line = error_line;\\n    }\\n  }\\n\\n  onMount(() => {\\n    if (_CodeMirror) {\\n      CodeMirror = _CodeMirror;\\n      createEditor(mode || \\\"svelte\\\").then(() => {\\n        if (editor) editor.setValue(value || \\\"\\\");\\n      });\\n    } else {\\n      codemirror_promise.then(async mod => {\\n        CodeMirror = mod.default;\\n        await createEditor(mode || \\\"svelte\\\");\\n        if (editor) editor.setValue(value || \\\"\\\");\\n      });\\n    }\\n\\n    return () => {\\n      destroyed = true;\\n      if (editor) editor.toTextArea();\\n    };\\n  });\\n\\n  let first = true;\\n\\n  async function createEditor(mode) {\\n    if (destroyed || !CodeMirror) return;\\n\\n    if (editor) editor.toTextArea();\\n\\n    const opts = {\\n      lineNumbers,\\n      lineWrapping: true,\\n      indentWithTabs: true,\\n      indentUnit: 2,\\n      tabSize: 2,\\n      value: \\\"\\\",\\n      mode: modes[mode] || {\\n        name: mode\\n      },\\n      readOnly: readonly,\\n      autoCloseBrackets: true,\\n      autoCloseTags: true,\\n      extraKeys: {}\\n    };\\n\\n    if (!tab)\\n      opts.extraKeys = {\\n        Tab: tab,\\n        \\\"Shift-Tab\\\": tab,\\n      };\\n\\n    if(cmdEnter)\\n      opts.extraKeys[\\\"Cmd-Enter\\\"] = (cmdEnter);\\n\\n    if(ctrlEnter)\\n      opts.extraKeys[\\\"Ctrl-Enter\\\"] = (ctrlEnter);\\n\\n    if(shiftEnter)\\n      opts.extraKeys[\\\"Shift-Enter\\\"] = (shiftEnter);\\n\\n    if(cmdPeriod)\\n      opts.extraKeys[\\\"Cmd-.\\\"] = (cmdPeriod);\\n\\n    if(cmdHiffen)\\n      opts.extraKeys[\\\"Cmd--\\\"] = (cmdHiffen);\\n\\n    if(cmdEqual)\\n      opts.extraKeys[\\\"Cmd-=\\\"] = (cmdEqual);\\n\\n    if(cmdCloseSquareBracket)\\n      opts.extraKeys[\\\"Cmd-]\\\"] = (cmdCloseSquareBracket);\\n\\n    if(cmdOpenSquareBracket)\\n      opts.extraKeys[\\\"Cmd-[\\\"] = (cmdOpenSquareBracket);      \\n\\n    // if(cmdEnter && !opts.extraKeys[\\\"Cmd-Enter\\\"])\\n    //   opts.extraKeys[\\\"Cmd-Enter\\\"] = (cmdEnter);\\n\\n\\n    // Creating a text editor is a lot of work, so we yield\\n    // the main thread for a moment. This helps reduce jank\\n    if (first) await sleep(50);\\n\\n    if (destroyed) return;\\n\\n    editor = CodeMirror.fromTextArea(refs.editor, opts);\\n\\n    editor.on(\\\"change\\\", instance => {\\n      if (!updating_externally) {\\n        const value = instance.getValue();\\n        dispatch(\\\"change\\\", { value });\\n      }\\n    });\\n\\n    if (first) await sleep(50);\\n    editor.refresh();\\n\\n    first = false;\\n  }\\n\\n  function sleep(ms) {\\n    return new Promise(fulfil => setTimeout(fulfil, ms));\\n  }\\n</script>\\n\\n<style>\\n  textarea {\\n    visibility: hidden;\\n  }\\n\\n  pre {\\n    position: absolute;\\n    width: 100%;\\n    height: 100%;\\n    top: 0;\\n    left: 0;\\n    border: none;\\n    padding: 4px 4px 4px 60px;\\n    resize: none;\\n    font-family: var(--font-mono);\\n    font-size: 13px;\\n    line-height: 1.7;\\n    user-select: none;\\n    pointer-events: none;\\n    color: #ccc;\\n    tab-size: 2;\\n    -moz-tab-size: 2;\\n  }\\n</style>\\n\\n<textarea tabindex=\\\"0\\\" bind:this={refs.editor} readonly {value} />\\n{#if !CodeMirror}\\n  <pre>{value}</pre>\\n{/if}\"],\"names\":[],\"mappings\":\"AAiTE,QAAQ,eAAC,CAAC,AACR,UAAU,CAAE,MAAM,AACpB,CAAC,AAED,GAAG,eAAC,CAAC,AACH,QAAQ,CAAE,QAAQ,CAClB,KAAK,CAAE,IAAI,CACX,MAAM,CAAE,IAAI,CACZ,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,CAAC,CACP,MAAM,CAAE,IAAI,CACZ,OAAO,CAAE,GAAG,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,CACzB,MAAM,CAAE,IAAI,CACZ,WAAW,CAAE,IAAI,WAAW,CAAC,CAC7B,SAAS,CAAE,IAAI,CACf,WAAW,CAAE,GAAG,CAChB,WAAW,CAAE,IAAI,CACjB,cAAc,CAAE,IAAI,CACpB,KAAK,CAAE,IAAI,CACX,QAAQ,CAAE,CAAC,CACX,aAAa,CAAE,CAAC,AAClB,CAAC\"}"
+    	map: "{\"version\":3,\"file\":\"CodeMirror.svelte\",\"sources\":[\"CodeMirror.svelte\"],\"sourcesContent\":[\"<script context=\\\"module\\\">\\n  const is_browser = typeof window !== \\\"undefined\\\";\\n\\n  let codemirror_promise;\\n  let _CodeMirror;\\n\\n  if (is_browser) {\\n    codemirror_promise = import(\\\"codemirror\\\");\\n\\n    codemirror_promise.then(mod => {\\n      _CodeMirror = mod.default;\\n    });\\n  }\\n</script>\\n\\n<script>\\n  import { onMount, createEventDispatcher } from \\\"svelte\\\";\\n\\n  const dispatch = createEventDispatcher();\\n\\n  export let value = \\\"\\\";\\n  export let readonly = false;\\n  export let errorLoc = null;\\n  // export let flex = false;\\n  export let lineNumbers = true;\\n  export let tab = true;\\n\\n  export let cmdEnter   = null;\\n  export let ctrlEnter  = null;\\n  export let shiftEnter = null;\\n  export let cmdPeriod  = null;\\n  export let ctrlPeriod = null;\\n  export let cmdHiffen  = null;\\n  export let ctrlHiffen = null;\\n  export let cmdEqual   = null;\\n  export let ctrlEqual  = null;\\n  export let cmdOpenSquareBracket = null;\\n  export let ctrlOpenSquareBracket = null;\\n  export let cmdCloseSquareBracket = null;\\n  export let ctrlCloseSquareBracket = null;\\n  export let cmdForwardSlash = null;\\n  export let ctrlForwardSlash = null;\\n\\n  // [Original Comment] We have to expose set and update methods, \\n  // rather than making this state-driven through props,\\n  // because it's difficult to update an editor\\n  // without resetting scroll otherwise\\n\\n  export async function set(new_value, new_mode, new_theme) {\\n    if (new_mode !== mode || new_theme !== theme) {\\n      await createEditor((mode = new_mode), (theme = new_theme));\\n    }\\n\\n    value = new_value;\\n    updating_externally = true;\\n    if (editor) editor.setValue(value);\\n    updating_externally = false;\\n  }\\n\\n\\n  export function update(new_value) {\\n    value = new_value;\\n\\n    if (editor) {\\n      const { left, top } = editor.getScrollInfo();\\n      editor.setValue((value = new_value));\\n      editor.scrollTo(left, top);\\n    }\\n  }\\n\\n  export function getValue() {\\n    if (editor) {\\n      return editor.getValue();\\n    } \\n  }\\n\\n  export function getSelection() {\\n    if (editor) {\\n      let expression = editor.getSelection();\\n      if (expression == \\\"\\\") {\\n        let cursorInfo = editor.getCursor();\\n        expression = editor.getDoc().getLine(cursorInfo.line);\\n      } \\n      return expression;\\n    }\\n  }\\n\\n  /*\\n   * Find code between dividers,\\n   * const divider = \\\"__________\\\";\\n  */  \\n  export function getBlock() {\\n    \\n    if (editor) {\\n      let cursorInfo = editor.getCursor();\\n      //find post divider\\n      let line = cursorInfo.line;\\n      let linePost = editor.lastLine();\\n\\n      while (line < linePost) {\\n        if (/___+/.test(editor.getLine(line))) {  // Test RegEx at least 3 underscores\\n          linePost = line - 1;\\n          break;\\n        }\\n        line++;\\n      }\\n\\n      line = cursorInfo.line;\\n      let linePre = -1;\\n      while (line >= 0) {\\n        // console.log(editor2.getLine(line));\\n        if (/___+/.test(editor.getLine(line))) {\\n          linePre = line;\\n          break;\\n        }\\n        line--;\\n      }\\n      if (linePre > -1) {\\n        linePre++;\\n      }\\n      let code = editor.getRange({\\n        line: linePre,\\n        ch: 0\\n      }, {\\n        line: linePost + 1,\\n        ch: 0\\n      });\\n\\n      return code;\\n    }\\n  }\\n\\n  export function resize() {\\n    editor.refresh();\\n  }\\n\\n  export function focus() {\\n    editor.focus();\\n  }\\n\\n  let w;\\n  let h;\\n  let mode;\\n  let theme;\\n\\n  const modes = {\\n    js: {\\n      name: \\\"javascript\\\",\\n      json: false\\n    },\\n    json: {\\n      name: \\\"javascript\\\",\\n      json: true\\n    },\\n    ebnf: {\\n      name: \\\"ebnf\\\",\\n      base: \\\"text/html\\\" \\n    },\\n    svelte: {\\n      name: \\\"handlebars\\\",\\n      base: \\\"text/html\\\"\\n    },\\n    closure: {\\n      name: \\\"clojure\\\",\\n      base: \\\"text/x-clojure\\\"\\n    },\\n    asn : {\\n      name: \\\"asn.1\\\",\\n      base: \\\"text/x-ttcn-asn\\\"\\n    },\\n    sema: {\\n      name: \\\"sema\\\",\\n      base: \\\"text/html\\\"\\n    }\\n  };\\n\\n \\n  const refs = {};\\n  let editor;\\n  let updating_externally = false;\\n  let marker;\\n  let error_line;\\n  let destroyed = false;\\n  let CodeMirror;\\n\\n  $: if (editor && w && h) {\\n    editor.refresh();\\n  }\\n\\n  $: {\\n    if (marker) marker.clear();\\n\\n    if (errorLoc) {\\n      const line = errorLoc.line - 1;\\n      const ch = errorLoc.column;\\n\\n      marker = editor.markText(\\n        { line, ch },\\n        { line, ch: ch + 1 },\\n        {\\n          className: \\\"error-loc\\\"\\n        }\\n      );\\n\\n      error_line = line;\\n    } else {\\n      error_line = null;\\n    }\\n  }\\n\\n  let previous_error_line;\\n  $: if (editor) {\\n    if (previous_error_line != null) {\\n      editor.removeLineClass(previous_error_line, \\\"wrap\\\", \\\"error-line\\\");\\n    }\\n\\n    if (error_line && error_line !== previous_error_line) {\\n      editor.addLineClass(error_line, \\\"wrap\\\", \\\"error-line\\\");\\n      previous_error_line = error_line;\\n    }\\n  }\\n\\n  onMount(() => {\\n    if (_CodeMirror) {\\n      CodeMirror = _CodeMirror;\\n      createEditor(mode || \\\"svelte\\\", theme).then(() => {\\n        if (editor) editor.setValue(value || \\\"\\\");\\n      });\\n    } else {\\n      codemirror_promise.then(async mod => {\\n        CodeMirror = mod.default;\\n        await createEditor(mode || \\\"svelte\\\", theme);\\n        if (editor) editor.setValue(value || \\\"\\\");\\n      });\\n    }\\n\\n    return () => {\\n      destroyed = true;\\n      if (editor) editor.toTextArea();\\n    };\\n  });\\n\\n  let first = true;\\n\\n  async function createEditor(mode, theme) {\\n    if (destroyed || !CodeMirror) return;\\n\\n    if (editor) editor.toTextArea();\\n\\n    console.log(\\\"createEditor:\\\", theme);\\n\\n    const opts = {\\n      lineNumbers,\\n      lineWrapping: true,\\n      indentWithTabs: true,\\n      indentUnit: 2,\\n      tabSize: 2,\\n      value: \\\"\\\",\\n      mode: modes[mode] || {\\n        name: mode\\n      },\\n      readOnly: readonly,\\n      autoCloseBrackets: true,\\n      autoCloseTags: true,\\n      extraKeys: {}\\n    };\\n\\n    if(theme !== undefined) \\n      opts.theme = theme;\\n    \\n\\n    if (!tab)\\n      opts.extraKeys = {\\n        Tab: tab,\\n        \\\"Shift-Tab\\\": tab,\\n      };\\n\\n    if(cmdEnter)\\n      opts.extraKeys[\\\"Cmd-Enter\\\"] = (cmdEnter);\\n\\n    if(ctrlEnter)\\n      opts.extraKeys[\\\"Ctrl-Enter\\\"] = (ctrlEnter);\\n\\n    if(shiftEnter)\\n      opts.extraKeys[\\\"Shift-Enter\\\"] = (shiftEnter);\\n\\n    if(cmdPeriod)\\n      opts.extraKeys[\\\"Cmd-.\\\"] = (cmdPeriod);\\n\\n    if(ctrlPeriod)\\n      opts.extraKeys[\\\"Ctrl-.\\\"] = (ctrlPeriod);\\n\\n    if(cmdHiffen)\\n      opts.extraKeys[\\\"Cmd--\\\"] = (cmdHiffen);\\n\\n    if(ctrlHiffen) \\n      opts.extraKeys[\\\"Ctrl--\\\"] = (ctrlHiffen);\\n    \\n    if(cmdEqual)\\n      opts.extraKeys[\\\"Cmd-=\\\"] = (cmdEqual);\\n\\n    if(ctrlEqual)\\n      opts.extraKeys[\\\"Cmd-=\\\"] = (ctrlEqual);\\n\\n    if(cmdCloseSquareBracket)\\n      opts.extraKeys[\\\"Cmd-]\\\"] = (cmdCloseSquareBracket);\\n\\n    if(cmdOpenSquareBracket)\\n      opts.extraKeys[\\\"Cmd-[\\\"] = (cmdOpenSquareBracket);      \\n\\n    if(ctrlCloseSquareBracket)\\n      opts.extraKeys[\\\"Ctrl-]\\\"] = (ctrlCloseSquareBracket);\\n\\n    if(ctrlOpenSquareBracket)\\n      opts.extraKeys[\\\"Ctrl-[\\\"] = (ctrlOpenSquareBracket);      \\n\\n    if(cmdForwardSlash)\\n      opts.extraKeys[\\\"Cmd-/\\\"] = (cmdForwardSlash);\\n\\n    if(ctrlForwardSlash)\\n      opts.extraKeys[\\\"Ctrl-/\\\"] = (ctrlForwardSlash);      \\n\\n    // if(cmdEnter && !opts.extraKeys[\\\"Cmd-Enter\\\"])\\n    //   opts.extraKeys[\\\"Cmd-Enter\\\"] = (cmdEnter);\\n\\n\\n    // Creating a text editor is a lot of work, so we yield\\n    // the main thread for a moment. This helps reduce jank\\n    if (first) await sleep(50);\\n\\n    if (destroyed) return;\\n\\n    editor = CodeMirror.fromTextArea(refs.editor, opts);\\n\\n    editor.on(\\\"change\\\", instance => {\\n      if (!updating_externally) {\\n        const value = instance.getValue();\\n        dispatch(\\\"change\\\", { value });\\n      }\\n    });\\n\\n    if (first) await sleep(50);\\n    editor.refresh();\\n\\n    first = false;\\n  }\\n\\n  function sleep(ms) {\\n    return new Promise(fulfil => setTimeout(fulfil, ms));\\n  }\\n</script>\\n\\n<style>\\n  textarea {\\n    visibility: hidden;\\n  }\\n\\n  pre {\\n    position: absolute;\\n    width: 100%;\\n    height: 100%;\\n    top: 0;\\n    left: 0;\\n    border: none;\\n    padding: 4px 4px 4px 60px;\\n    resize: none;\\n    font-family: var(--font-mono);\\n    font-size: 13px;\\n    line-height: 1.7;\\n    user-select: none;\\n    pointer-events: none;\\n    color: #ccc;\\n    tab-size: 2;\\n    -moz-tab-size: 2;\\n  }\\n</style>\\n\\n<textarea tabindex=\\\"0\\\" bind:this={refs.editor} readonly {value} />\\n{#if !CodeMirror}\\n  <pre>{value}</pre>\\n{/if}\\n\"],\"names\":[],\"mappings\":\"AAiWE,QAAQ,eAAC,CAAC,AACR,UAAU,CAAE,MAAM,AACpB,CAAC,AAED,GAAG,eAAC,CAAC,AACH,QAAQ,CAAE,QAAQ,CAClB,KAAK,CAAE,IAAI,CACX,MAAM,CAAE,IAAI,CACZ,GAAG,CAAE,CAAC,CACN,IAAI,CAAE,CAAC,CACP,MAAM,CAAE,IAAI,CACZ,OAAO,CAAE,GAAG,CAAC,GAAG,CAAC,GAAG,CAAC,IAAI,CACzB,MAAM,CAAE,IAAI,CACZ,WAAW,CAAE,IAAI,WAAW,CAAC,CAC7B,SAAS,CAAE,IAAI,CACf,WAAW,CAAE,GAAG,CAChB,WAAW,CAAE,IAAI,CACjB,cAAc,CAAE,IAAI,CACpB,KAAK,CAAE,IAAI,CACX,QAAQ,CAAE,CAAC,CACX,aAAa,CAAE,CAAC,AAClB,CAAC\"}"
     };
 
     const is_browser = typeof window !== "undefined";
@@ -124,17 +124,16 @@
     const CodeMirror_1 = create_ssr_component(($$result, $$props, $$bindings, $$slots) => {
     	const dispatch = createEventDispatcher();
 
-      let { value = "", readonly = false, errorLoc = null, lineNumbers = true, tab = true, cmdEnter = null, ctrlEnter = null, shiftEnter = null, cmdPeriod  = null, cmdHiffen  = null, cmdEqual   = null, cmdOpenSquareBracket = null, cmdCloseSquareBracket = null } = $$props;
+      let { value = "", readonly = false, errorLoc = null, lineNumbers = true, tab = true, cmdEnter   = null, ctrlEnter  = null, shiftEnter = null, cmdPeriod  = null, ctrlPeriod = null, cmdHiffen  = null, ctrlHiffen = null, cmdEqual   = null, ctrlEqual  = null, cmdOpenSquareBracket = null, ctrlOpenSquareBracket = null, cmdCloseSquareBracket = null, ctrlCloseSquareBracket = null, cmdForwardSlash = null, ctrlForwardSlash = null } = $$props;
 
-
-
-      // We have to expose set and update methods, rather
-      // than making this state-driven through props,
+      // [Original Comment] We have to expose set and update methods, 
+      // rather than making this state-driven through props,
       // because it's difficult to update an editor
       // without resetting scroll otherwise
-      async function set(new_value, new_mode) {
-        if (new_mode !== mode) {
-          await createEditor((mode = new_mode));
+
+      async function set(new_value, new_mode, new_theme) {
+        if (new_mode !== mode || new_theme !== theme) {
+          await createEditor((mode = new_mode), (theme = new_theme));
         }
 
         value = new_value;
@@ -142,6 +141,7 @@
         if (editor) editor.setValue(value);
         updating_externally = false;
       }
+
 
       function update(new_value) {
         value = new_value;
@@ -151,6 +151,12 @@
           editor.setValue((value = new_value));
           editor.scrollTo(left, top);
         }
+      }
+
+      function getValue() {
+        if (editor) {
+          return editor.getValue();
+        } 
       }
 
       function getSelection() {
@@ -209,8 +215,6 @@
         }
       }
 
-
-
       function resize() {
         editor.refresh();
       }
@@ -222,6 +226,7 @@
       let w;
       let h;
       let mode;
+      let theme;
 
       const modes = {
         js: {
@@ -240,12 +245,21 @@
           name: "handlebars",
           base: "text/html"
         },
+        closure: {
+          name: "clojure",
+          base: "text/x-clojure"
+        },
+        asn : {
+          name: "asn.1",
+          base: "text/x-ttcn-asn"
+        },
         sema: {
           name: "sema",
           base: "text/html"
         }
       };
 
+     
       const refs = {};
       let editor;
       let updating_externally = false;
@@ -259,13 +273,13 @@
       onMount(() => {
         if (_CodeMirror) {
           CodeMirror = _CodeMirror;
-          createEditor(mode || "svelte").then(() => {
+          createEditor(mode || "svelte", theme).then(() => {
             if (editor) editor.setValue(value || "");
           });
         } else {
           codemirror_promise.then(async mod => {
             CodeMirror = mod.default;
-            await createEditor(mode || "svelte");
+            await createEditor(mode || "svelte", theme);
             if (editor) editor.setValue(value || "");
           });
         }
@@ -278,10 +292,12 @@
 
       let first = true;
 
-      async function createEditor(mode) {
+      async function createEditor(mode, theme) {
         if (destroyed || !CodeMirror) return;
 
         if (editor) editor.toTextArea();
+
+        console.log("createEditor:", theme);
 
         const opts = {
           lineNumbers,
@@ -298,6 +314,10 @@
           autoCloseTags: true,
           extraKeys: {}
         };
+
+        if(theme !== undefined) 
+          opts.theme = theme;
+        
 
         if (!tab)
           opts.extraKeys = {
@@ -317,17 +337,38 @@
         if(cmdPeriod)
           opts.extraKeys["Cmd-."] = (cmdPeriod);
 
+        if(ctrlPeriod)
+          opts.extraKeys["Ctrl-."] = (ctrlPeriod);
+
         if(cmdHiffen)
           opts.extraKeys["Cmd--"] = (cmdHiffen);
 
+        if(ctrlHiffen) 
+          opts.extraKeys["Ctrl--"] = (ctrlHiffen);
+        
         if(cmdEqual)
           opts.extraKeys["Cmd-="] = (cmdEqual);
+
+        if(ctrlEqual)
+          opts.extraKeys["Cmd-="] = (ctrlEqual);
 
         if(cmdCloseSquareBracket)
           opts.extraKeys["Cmd-]"] = (cmdCloseSquareBracket);
 
         if(cmdOpenSquareBracket)
           opts.extraKeys["Cmd-["] = (cmdOpenSquareBracket);      
+
+        if(ctrlCloseSquareBracket)
+          opts.extraKeys["Ctrl-]"] = (ctrlCloseSquareBracket);
+
+        if(ctrlOpenSquareBracket)
+          opts.extraKeys["Ctrl-["] = (ctrlOpenSquareBracket);      
+
+        if(cmdForwardSlash)
+          opts.extraKeys["Cmd-/"] = (cmdForwardSlash);
+
+        if(ctrlForwardSlash)
+          opts.extraKeys["Ctrl-/"] = (ctrlForwardSlash);      
 
         // if(cmdEnter && !opts.extraKeys["Cmd-Enter"])
         //   opts.extraKeys["Cmd-Enter"] = (cmdEnter);
@@ -363,12 +404,20 @@
     	if ($$props.ctrlEnter === void 0 && $$bindings.ctrlEnter && ctrlEnter !== void 0) $$bindings.ctrlEnter(ctrlEnter);
     	if ($$props.shiftEnter === void 0 && $$bindings.shiftEnter && shiftEnter !== void 0) $$bindings.shiftEnter(shiftEnter);
     	if ($$props.cmdPeriod === void 0 && $$bindings.cmdPeriod && cmdPeriod !== void 0) $$bindings.cmdPeriod(cmdPeriod);
+    	if ($$props.ctrlPeriod === void 0 && $$bindings.ctrlPeriod && ctrlPeriod !== void 0) $$bindings.ctrlPeriod(ctrlPeriod);
     	if ($$props.cmdHiffen === void 0 && $$bindings.cmdHiffen && cmdHiffen !== void 0) $$bindings.cmdHiffen(cmdHiffen);
+    	if ($$props.ctrlHiffen === void 0 && $$bindings.ctrlHiffen && ctrlHiffen !== void 0) $$bindings.ctrlHiffen(ctrlHiffen);
     	if ($$props.cmdEqual === void 0 && $$bindings.cmdEqual && cmdEqual !== void 0) $$bindings.cmdEqual(cmdEqual);
+    	if ($$props.ctrlEqual === void 0 && $$bindings.ctrlEqual && ctrlEqual !== void 0) $$bindings.ctrlEqual(ctrlEqual);
     	if ($$props.cmdOpenSquareBracket === void 0 && $$bindings.cmdOpenSquareBracket && cmdOpenSquareBracket !== void 0) $$bindings.cmdOpenSquareBracket(cmdOpenSquareBracket);
+    	if ($$props.ctrlOpenSquareBracket === void 0 && $$bindings.ctrlOpenSquareBracket && ctrlOpenSquareBracket !== void 0) $$bindings.ctrlOpenSquareBracket(ctrlOpenSquareBracket);
     	if ($$props.cmdCloseSquareBracket === void 0 && $$bindings.cmdCloseSquareBracket && cmdCloseSquareBracket !== void 0) $$bindings.cmdCloseSquareBracket(cmdCloseSquareBracket);
+    	if ($$props.ctrlCloseSquareBracket === void 0 && $$bindings.ctrlCloseSquareBracket && ctrlCloseSquareBracket !== void 0) $$bindings.ctrlCloseSquareBracket(ctrlCloseSquareBracket);
+    	if ($$props.cmdForwardSlash === void 0 && $$bindings.cmdForwardSlash && cmdForwardSlash !== void 0) $$bindings.cmdForwardSlash(cmdForwardSlash);
+    	if ($$props.ctrlForwardSlash === void 0 && $$bindings.ctrlForwardSlash && ctrlForwardSlash !== void 0) $$bindings.ctrlForwardSlash(ctrlForwardSlash);
     	if ($$props.set === void 0 && $$bindings.set && set !== void 0) $$bindings.set(set);
     	if ($$props.update === void 0 && $$bindings.update && update !== void 0) $$bindings.update(update);
+    	if ($$props.getValue === void 0 && $$bindings.getValue && getValue !== void 0) $$bindings.getValue(getValue);
     	if ($$props.getSelection === void 0 && $$bindings.getSelection && getSelection !== void 0) $$bindings.getSelection(getSelection);
     	if ($$props.getBlock === void 0 && $$bindings.getBlock && getBlock !== void 0) $$bindings.getBlock(getBlock);
     	if ($$props.resize === void 0 && $$bindings.resize && resize !== void 0) $$bindings.resize(resize);

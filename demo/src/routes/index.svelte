@@ -17,8 +17,15 @@
   let cm1, cm2;
  
   let cmdEnter = () => console.log("cmd-Enter");
+  let ctrlEnter = () => console.log("ctrl-Enter");
   let cmdPeriod = () => console.log("cmd-.");
-  let ctrlEnter = () => console.log("ctrl-.");
+  let ctrlPeriod = () => console.log("ctrl-.");
+  let cmdForwardSlash = () => {
+    console.log("cmd-/"); 
+  }
+  let ctrlForwardSlash = () => {
+    console.log("ctrl-/"); 
+  }
 
 	// onMount(async () => {
   //   cm1.set(value1, "ebnf");
@@ -92,7 +99,14 @@
 
 <div class="codemirror-container flex">
   <div class="codemirror-container-sema">
-    <CodeMirror  bind:this={cm1} bind:value={value1} tab={false} cmdEnter={cmdEnter} cmdPeriod={cmdPeriod} ctrlEnter={ctrlEnter}/>
+    <CodeMirror bind:this={cm1} 
+                bind:value={value1} 
+                tab={false} 
+                cmdEnter={cmdEnter} 
+                cmdPeriod={cmdPeriod} 
+                ctrlEnter={ctrlEnter} 
+                cmdForwardSlash={cmdForwardSlash}
+                />
   </div>
   <br>
   <CodeMirror bind:this={cm2} bind:value={value2} ctrlEnter={ctrlEnter} cmdPeriod={cmdPeriod}/>
