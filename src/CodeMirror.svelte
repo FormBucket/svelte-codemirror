@@ -25,16 +25,21 @@
   export let lineNumbers = true;
   export let tab = true;
 
-  export let cmdEnter = null;
-  export let ctrlEnter = null;
+  export let cmdEnter   = null;
+  export let ctrlEnter  = null;
   export let shiftEnter = null;
   export let cmdPeriod  = null;
-  export let ctrlPeriod  = null;
+  export let ctrlPeriod = null;
   export let cmdHiffen  = null;
+  export let ctrlHiffen = null;
   export let cmdEqual   = null;
+  export let ctrlEqual  = null;
   export let cmdOpenSquareBracket = null;
+  export let ctrlOpenSquareBracket = null;
   export let cmdCloseSquareBracket = null;
+  export let ctrlCloseSquareBracket = null;
   export let cmdForwardSlash = null;
+  export let ctrlForwardSlash = null;
 
   // [Original Comment] We have to expose set and update methods, 
   // rather than making this state-driven through props,
@@ -288,14 +293,32 @@
     if(cmdHiffen)
       opts.extraKeys["Cmd--"] = (cmdHiffen);
 
+    if(ctrlHiffen) 
+      opts.extraKeys["Ctrl--"] = (ctrlHiffen);
+    
     if(cmdEqual)
       opts.extraKeys["Cmd-="] = (cmdEqual);
+
+    if(ctrlEqual)
+      opts.extraKeys["Cmd-="] = (ctrlEqual);
 
     if(cmdCloseSquareBracket)
       opts.extraKeys["Cmd-]"] = (cmdCloseSquareBracket);
 
     if(cmdOpenSquareBracket)
       opts.extraKeys["Cmd-["] = (cmdOpenSquareBracket);      
+
+    if(ctrlCloseSquareBracket)
+      opts.extraKeys["Ctrl-]"] = (ctrlCloseSquareBracket);
+
+    if(ctrlOpenSquareBracket)
+      opts.extraKeys["Ctrl-["] = (ctrlOpenSquareBracket);      
+
+    if(cmdForwardSlash)
+      opts.extraKeys["Cmd-/"] = (cmdForwardSlash);
+
+    if(ctrlForwardSlash)
+      opts.extraKeys["Ctrl-/"] = (ctrlForwardSlash);      
 
     // if(cmdEnter && !opts.extraKeys["Cmd-Enter"])
     //   opts.extraKeys["Cmd-Enter"] = (cmdEnter);
