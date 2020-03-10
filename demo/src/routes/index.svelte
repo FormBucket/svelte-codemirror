@@ -106,6 +106,7 @@
                 cmdPeriod={cmdPeriod} 
                 ctrlEnter={ctrlEnter} 
                 cmdForwardSlash={cmdForwardSlash}
+                ctrlForwardSlash={ctrlForwardSlash}
                 />
   </div>
   <br>

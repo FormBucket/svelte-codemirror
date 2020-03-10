@@ -326,7 +326,7 @@
       opts.extraKeys["Ctrl-["] = (ctrlOpenSquareBracket);      
 
     if(cmdForwardSlash)
-      opts.extraKeys["Cmd-/"] = (ctrlForwardSlash);
+      opts.extraKeys["Cmd-/"] = () => editor.execCommand('toggleComment');
 
     if(ctrlForwardSlash)
       opts.extraKeys["Ctrl-/"] = () => editor.execCommand('toggleComment');
