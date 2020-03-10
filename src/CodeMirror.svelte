@@ -85,6 +85,17 @@
     }
   }
 
+  export function commentSelection() {
+    if (editor) {
+      let expression = editor.getSelection();
+      if (expression == "") {
+        let cursorInfo = editor.getCursor();
+        expression = editor.getDoc().getLine(cursorInfo.line);
+      } 
+      return expression;
+    }
+  }
+
   /*
    * Find code between dividers,
    * const divider = "__________";
@@ -314,11 +325,11 @@
     if(ctrlOpenSquareBracket)
       opts.extraKeys["Ctrl-["] = (ctrlOpenSquareBracket);      
 
-    // if(cmdForwardSlash)
-    //   opts.extraKeys["Cmd-/"] = editor.execCommand('toggleComment');
+    if(cmdForwardSlash)
+      opts.extraKeys["Cmd-/"] = editor.execCommand('toggleComment');
 
-    // if(ctrlForwardSlash)
-    //   opts.extraKeys["Ctrl-/"] = editor.execCommand('toggleComment');
+    if(ctrlForwardSlash)
+      opts.extraKeys["Ctrl-/"] = editor.execCommand('toggleComment');
 
     // if(ctrlForwardSlash)
     //   opts.extraKeys["Ctrl-/"] = (ctrlForwardSlash);      

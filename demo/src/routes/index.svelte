@@ -105,8 +105,8 @@
                 cmdEnter={cmdEnter} 
                 cmdPeriod={cmdPeriod} 
                 ctrlEnter={ctrlEnter} 
-                
                 />
+                <!-- cmdForwardSlash={cmdForwardSlash} -->
   </div>
   <br>
   <CodeMirror bind:this={cm2} bind:value={value2} ctrlEnter={ctrlEnter} cmdPeriod={cmdPeriod}/>
