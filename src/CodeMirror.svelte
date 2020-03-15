@@ -22,8 +22,8 @@
   export let readonly = false;
   export let errorLoc = null;
   // export let flex = false;
-  export let lineNumbers = true;
-  export let tab = true;
+  export let lineNumbers  = true;
+  export let tab          = true;
 
   export let cmdEnter   = null;
   export let ctrlEnter  = null;
@@ -34,9 +34,9 @@
   export let ctrlHiffen = null;
   export let cmdEqual   = null;
   export let ctrlEqual  = null;
-  export let cmdOpenSquareBracket = null;
-  export let ctrlOpenSquareBracket = null;
-  export let cmdCloseSquareBracket = null;
+  export let cmdOpenSquareBracket   = null;
+  export let ctrlOpenSquareBracket  = null;
+  export let cmdCloseSquareBracket  = null;
   export let ctrlCloseSquareBracket = null;
   export let cmdForwardSlash = null;
   export let ctrlForwardSlash = null;
@@ -258,7 +258,7 @@
 
     if (editor) editor.toTextArea();
 
-    console.log("createEditor:", theme);
+    // console.log("createEditor:", theme);
 
     const opts = {
       lineNumbers,
@@ -389,7 +389,10 @@
   }
 </style>
 
-<textarea tabindex="0" bind:this={refs.editor} readonly {value} />
+<textarea {value}
+          tabindex="0" 
+          bind:this={refs.editor} 
+          readonly />
 {#if !CodeMirror}
   <pre>{value}</pre>
 {/if}
