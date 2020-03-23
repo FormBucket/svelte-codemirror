@@ -350,6 +350,8 @@
       if (!updating_externally) {
         const value = instance.getValue();
         dispatch("change", { value });
+        console.log("onchange:");
+        console.log(instance); 
       }
     });
 
