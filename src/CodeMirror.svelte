@@ -74,6 +74,12 @@
     }
   }
 
+  export function getLine(lineIndex) {
+    if (editor) {
+      return editor.getLine(lineIndex);
+    }
+  }
+
   export function getSelection() {
     if (editor) {
       let expression = editor.getSelection();
