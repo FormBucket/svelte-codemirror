@@ -41,7 +41,7 @@
   export let cmdForwardSlash = null;
   export let ctrlForwardSlash = null;
 
-  // [Original Comment] We have to expose set and update methods, 
+  // [Original Comment] We have to expose set and update methods,
   // rather than making this state-driven through props,
   // because it's difficult to update an editor
   // without resetting scroll otherwise
@@ -71,7 +71,13 @@
   export function getValue() {
     if (editor) {
       return editor.getValue();
-    } 
+    }
+  }
+
+  export function getLine(lineIndex) {
+    if (editor) {
+      return editor.getLine(lineIndex);
+    }
   }
 
   export function getSelection() {
@@ -80,7 +86,7 @@
       if (expression == "") {
         let cursorInfo = editor.getCursor();
         expression = editor.getDoc().getLine(cursorInfo.line);
-      } 
+      }
       return expression;
     }
   }
@@ -91,7 +97,7 @@
       if (expression == "") {
         let cursorInfo = editor.getCursor();
         expression = editor.getDoc().getLine(cursorInfo.line);
-      } 
+      }
       return expression;
     }
   }
@@ -99,9 +105,9 @@
   /*
    * Find code between dividers,
    * const divider = "__________";
-  */  
+  */
   export function getBlock() {
-    
+
     if (editor) {
       let cursorInfo = editor.getCursor();
       //find post divider
@@ -165,7 +171,7 @@
     },
     ebnf: {
       name: "ebnf",
-      base: "text/html" 
+      base: "text/html"
     },
     svelte: {
       name: "handlebars",
@@ -185,7 +191,7 @@
     }
   };
 
- 
+
   const refs = {};
   let editor;
   let updating_externally = false;
@@ -276,9 +282,9 @@
       extraKeys: {}
     };
 
-    if(theme !== undefined) 
+    if(theme !== undefined)
       opts.theme = theme;
-    
+
 
     if (!tab)
       opts.extraKeys = {
@@ -304,9 +310,9 @@
     if(cmdHiffen)
       opts.extraKeys["Cmd--"] = (cmdHiffen);
 
-    if(ctrlHiffen) 
+    if(ctrlHiffen)
       opts.extraKeys["Ctrl--"] = (ctrlHiffen);
-    
+
     if(cmdEqual)
       opts.extraKeys["Cmd-="] = (cmdEqual);
 
@@ -317,13 +323,13 @@
       opts.extraKeys["Cmd-]"] = (cmdCloseSquareBracket);
 
     if(cmdOpenSquareBracket)
-      opts.extraKeys["Cmd-["] = (cmdOpenSquareBracket);      
+      opts.extraKeys["Cmd-["] = (cmdOpenSquareBracket);
 
     if(ctrlCloseSquareBracket)
       opts.extraKeys["Ctrl-]"] = (ctrlCloseSquareBracket);
 
     if(ctrlOpenSquareBracket)
-      opts.extraKeys["Ctrl-["] = (ctrlOpenSquareBracket);      
+      opts.extraKeys["Ctrl-["] = (ctrlOpenSquareBracket);
 
     if(cmdForwardSlash)
       opts.extraKeys["Cmd-/"] = () => editor.execCommand('toggleComment');
@@ -332,7 +338,7 @@
       opts.extraKeys["Ctrl-/"] = () => editor.execCommand('toggleComment');
 
     // if(ctrlForwardSlash)
-    //   opts.extraKeys["Ctrl-/"] = (ctrlForwardSlash);      
+    //   opts.extraKeys["Ctrl-/"] = (ctrlForwardSlash);
 
     // if(cmdEnter && !opts.extraKeys["Cmd-Enter"])
     //   opts.extraKeys["Cmd-Enter"] = (cmdEnter);
@@ -346,12 +352,10 @@
 
     editor = CodeMirror.fromTextArea(refs.editor, opts);
 
-    editor.on("change", instance => {
+    editor.on("change", (instance, changeObj) => {
       if (!updating_externally) {
-        const value = instance.getValue();
-        dispatch("change", { value });
-        console.log("onchange:");
-        console.log(instance); 
+        // const value = instance.getValue();
+        dispatch("change", { changeObj });
       }
     });
 
@@ -392,8 +396,8 @@
 </style>
 
 <textarea {value}
-          tabindex="0" 
-          bind:this={refs.editor} 
+          tabindex="0"
+          bind:this={refs.editor}
           readonly />
 {#if !CodeMirror}
   <pre>{value}</pre>
