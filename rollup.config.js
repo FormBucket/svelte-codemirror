@@ -8,10 +8,20 @@ const name = pkg.name
   .replace(/-\w/g, m => m[1].toUpperCase());
 
 export default {
-  input: "src/CodeMirror.svelte",
-  output: [
-    { file: pkg.module, format: "es" },
-    { file: pkg.main, format: "umd", name }
-  ],
-  plugins: [svelte({ generate: "ssr" }), resolve()]
+	input: "src/CodeMirror.svelte",
+	output: [
+		{ file: pkg.module, format: "es" },
+		{ file: pkg.main, format: "umd", name }
+	],
+	plugins: [
+		svelte({
+			dev: true,
+			hydratable: true,
+			emitCss: true,
+			generate: "ssr"
+		}),
+		resolve({
+			browser: true
+		})
+	]
 };
