@@ -177,6 +177,7 @@
       function getRange(from, to) {
         return editor.getRange(from, to);
       }
+
       /*
        * Find code between dividers,
        * const divider = "__________";
