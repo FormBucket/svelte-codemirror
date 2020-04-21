@@ -126,7 +126,7 @@
 
       let { value = "", readonly = false, errorLoc = null, lineNumbers = true, tab = true, cmdEnter   = null, ctrlEnter  = null, shiftEnter = null, cmdPeriod  = null, ctrlPeriod = null, cmdHiffen  = null, ctrlHiffen = null, cmdEqual   = null, ctrlEqual  = null, cmdOpenSquareBracket = null, ctrlOpenSquareBracket = null, cmdCloseSquareBracket = null, ctrlCloseSquareBracket = null, cmdForwardSlash = null, ctrlForwardSlash = null } = $$props;
 
-      // [Original Comment] We have to expose set and update methods, 
+      // [Original Comment] We have to expose set and update methods,
       // rather than making this state-driven through props,
       // because it's difficult to update an editor
       // without resetting scroll otherwise
@@ -156,7 +156,7 @@
       function getValue() {
         if (editor) {
           return editor.getValue();
-        } 
+        }
       }
 
       function getSelection() {
@@ -165,17 +165,24 @@
           if (expression == "") {
             let cursorInfo = editor.getCursor();
             expression = editor.getDoc().getLine(cursorInfo.line);
-          } 
+          }
           return expression;
         }
       }
 
+      function getCursorPosition() {
+        return editor.getCursor();
+      }
+
+      function getRange(from, to) {
+        return editor.getRange(from, to);
+      }
       /*
        * Find code between dividers,
        * const divider = "__________";
-      */  
+      */
       function getBlock() {
-        
+
         if (editor) {
           let cursorInfo = editor.getCursor();
           //find post divider
@@ -239,7 +246,7 @@
         },
         ebnf: {
           name: "ebnf",
-          base: "text/html" 
+          base: "text/html"
         },
         svelte: {
           name: "handlebars",
@@ -259,7 +266,7 @@
         }
       };
 
-     
+
       const refs = {};
       let editor;
       let updating_externally = false;
@@ -315,9 +322,9 @@
           extraKeys: {}
         };
 
-        if(theme !== undefined) 
+        if(theme !== undefined)
           opts.theme = theme;
-        
+
 
         if (!tab)
           opts.extraKeys = {
@@ -343,9 +350,9 @@
         if(cmdHiffen)
           opts.extraKeys["Cmd--"] = (cmdHiffen);
 
-        if(ctrlHiffen) 
+        if(ctrlHiffen)
           opts.extraKeys["Ctrl--"] = (ctrlHiffen);
-        
+
         if(cmdEqual)
           opts.extraKeys["Cmd-="] = (cmdEqual);
 
@@ -356,19 +363,19 @@
           opts.extraKeys["Cmd-]"] = (cmdCloseSquareBracket);
 
         if(cmdOpenSquareBracket)
-          opts.extraKeys["Cmd-["] = (cmdOpenSquareBracket);      
+          opts.extraKeys["Cmd-["] = (cmdOpenSquareBracket);
 
         if(ctrlCloseSquareBracket)
           opts.extraKeys["Ctrl-]"] = (ctrlCloseSquareBracket);
 
         if(ctrlOpenSquareBracket)
-          opts.extraKeys["Ctrl-["] = (ctrlOpenSquareBracket);      
+          opts.extraKeys["Ctrl-["] = (ctrlOpenSquareBracket);
 
         if(cmdForwardSlash)
           opts.extraKeys["Cmd-/"] = (cmdForwardSlash);
 
         if(ctrlForwardSlash)
-          opts.extraKeys["Ctrl-/"] = (ctrlForwardSlash);      
+          opts.extraKeys["Ctrl-/"] = (ctrlForwardSlash);
 
         // if(cmdEnter && !opts.extraKeys["Cmd-Enter"])
         //   opts.extraKeys["Cmd-Enter"] = (cmdEnter);
@@ -430,11 +437,11 @@
           }
     	{
             if (marker) marker.clear();
-        
+
             if (errorLoc) {
               const line = errorLoc.line - 1;
               const ch = errorLoc.column;
-        
+
               marker = editor.markText(
                 { line, ch },
                 { line, ch: ch + 1 },
@@ -442,7 +449,7 @@
                   className: "error-loc"
                 }
               );
-        
+
               error_line = line;
             } else {
               error_line = null;
@@ -452,7 +459,7 @@
             if (previous_error_line != null) {
               editor.removeLineClass(previous_error_line, "wrap", "error-line");
             }
-        
+
             if (error_line && error_line !== previous_error_line) {
               editor.addLineClass(error_line, "wrap", "error-line");
               previous_error_line = error_line;
