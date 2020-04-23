@@ -91,11 +91,11 @@
     }
   }
 
-  function getCursorPosition() {
+  export function getCursorPosition() {
     return editor? editor.getCursor() : undefined;
   }
 
-  function getRange(from, to) {
+  export function getRange(from, to) {
     return editor? editor.getRange(from, to) : undefined;
   }
 
