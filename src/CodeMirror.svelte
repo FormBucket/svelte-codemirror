@@ -91,6 +91,14 @@
     }
   }
 
+  function getCursorPosition() {
+    return editor? editor.getCursor() : undefined;
+  }
+
+  function getRange(from, to) {
+    return editor? editor.getRange(from, to) : undefined;
+  }
+
   export function commentSelection() {
     if (editor) {
       let expression = editor.getSelection();
