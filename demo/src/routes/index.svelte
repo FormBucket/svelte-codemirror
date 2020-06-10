@@ -67,7 +67,9 @@
                 on:change={ e => on(e) }
                 on:focus={ e => on(e) }
                 on:blur={ e => on(e) }
-                on:refresh={ e => on(e) }    
+                on:refresh={ e => on(e) }
+                on:gutterClick={ e => on(e) }
+                on:viewportChange={ e => on(e) }                      
                 {cmdEnter} 
                 {cmdPeriod} 
                 {ctrlEnter} 
@@ -81,7 +83,9 @@
               on:change={ e => on(e) }
               on:focus={ e => on(e) }
               on:blur={ e => on(e) }
-              on:refresh={ e => on(e) }   
+              on:refresh={ e => on(e) }
+              on:gutterClick={ e => on(e) }
+              on:viewportChange={ e => on(e) }      
               {ctrlEnter} 
               {cmdPeriod}  
               {cmdForwardSlash}
