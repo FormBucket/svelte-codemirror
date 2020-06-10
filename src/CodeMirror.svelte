@@ -361,25 +361,33 @@
 
     editor.on("focus", (instance, event) => {
       if (!updating_externally) {
-        // const value = instance.getValue();
         dispatch("focus", { event });
       }
     });
 
     editor.on("blur", (instance, event) => {
       if (!updating_externally) {
-        // const value = instance.getValue();
         dispatch("blur", { event });
       }
     });    
 
     editor.on("refresh", (instance, event) => {
       if (!updating_externally) {
-        // const value = instance.getValue();
         dispatch("refresh", { event });
       }
     }); 
 
+    editor.on("gutterClick", (instance, line, gutter, clickEvent) => {
+      if (!updating_externally) {
+        dispatch("gutterClick", { line, gutter, clickEvent });
+      }
+    });
+
+    editor.on("viewportChange", (instance, from, to) => {
+      if (!updating_externally) {
+        dispatch("viewportChange", { from, to });
+      }
+    });
 
     if (first) await sleep(50);
     editor.refresh();
