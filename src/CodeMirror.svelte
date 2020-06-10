@@ -359,6 +359,28 @@
       }
     });
 
+    editor.on("focus", (instance, event) => {
+      if (!updating_externally) {
+        // const value = instance.getValue();
+        dispatch("focus", { event });
+      }
+    });
+
+    editor.on("blur", (instance, event) => {
+      if (!updating_externally) {
+        // const value = instance.getValue();
+        dispatch("blur", { event });
+      }
+    });    
+
+    editor.on("refresh", (instance, event) => {
+      if (!updating_externally) {
+        // const value = instance.getValue();
+        dispatch("refresh", { event });
+      }
+    }); 
+
+
     if (first) await sleep(50);
     editor.refresh();
 

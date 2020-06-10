@@ -13,6 +13,7 @@ export default {
 		{ file: pkg.module, format: "es" },
 		{ file: pkg.main, format: "umd", name }
 	],
+	sourcemap: true,
 	plugins: [
 		svelte({
 			dev: true,

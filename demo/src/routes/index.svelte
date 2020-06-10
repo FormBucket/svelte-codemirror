@@ -37,8 +37,8 @@
 
 	});
 
-  const onChange = e => {
-    console.log("DEBUG:onChange: ");
+  const on = e => {
+    console.log("DEBUG:on: ");
     console.log(e);
   }
 
@@ -64,7 +64,10 @@
     <CodeMirror bind:this={cm1} 
                 bind:value={value1} 
                 tab={false}
-                on:change={ e => onChange(e) }  
+                on:change={ e => on(e) }
+                on:focus={ e => on(e) }
+                on:blur={ e => on(e) }
+                on:refresh={ e => on(e) }    
                 {cmdEnter} 
                 {cmdPeriod} 
                 {ctrlEnter} 
@@ -75,7 +78,10 @@
                
   <CodeMirror bind:this={cm2} 
               bind:value={value2}
-              on:change={ e => onChange(e) } 
+              on:change={ e => on(e) }
+              on:focus={ e => on(e) }
+              on:blur={ e => on(e) }
+              on:refresh={ e => on(e) }   
               {ctrlEnter} 
               {cmdPeriod}  
               {cmdForwardSlash}
