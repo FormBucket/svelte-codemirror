@@ -17,7 +17,7 @@ export default {
 	client: {
 		input: config.client.input(),
 		output: config.client.output(),
-		sourcemap: true,
+		// sourcemap: true,
 		plugins: [
 			replace({
 				"process.browser": true,

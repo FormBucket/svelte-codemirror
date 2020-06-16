@@ -1,7 +1,7 @@
 {
   "name": "svelte-codemirror",
   "version": "1.2.1",
-  "description": "An svelte v3 component for embedding codemirrorjs",
+  "description": "An svelte v3 component for embedding codemirror",
   "module": "index.mjs",
   "main": "index.js",
   "svelte": "src/CodeMirror.svelte",
@@ -13,12 +13,12 @@
   "author": "Rich Harris",
   "license": "ISC",
   "dependencies": {
-    "codemirror": "^5.49.2",
-    "rollup-plugin-node-resolve": "^5.0.3"
+    "codemirror": "^5.54.0"
   },
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^8.0.1",
     "rollup": "^1.15.6",
-    "rollup-plugin-svelte": "^5.1.0",
-    "svelte": "^3.5.1"
+    "rollup-plugin-svelte": "^5.2.2",
+    "svelte": "^3.23.2"
   }
 }

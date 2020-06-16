@@ -409,10 +409,10 @@
 </script>
 
 <style>
-  textarea {
+  /* textarea {
     visibility: hidden;
-  }
-
+  } */
+/* 
   pre {
     position: absolute;
     width: 100%;
@@ -430,13 +430,14 @@
     color: #ccc;
     tab-size: 2;
     -moz-tab-size: 2;
-  }
+  } */
 </style>
 
 <textarea {value}
           tabindex="0"
           bind:this={refs.editor}
-          readonly />
+          readonly 
+          />
 {#if !CodeMirror}
   <pre>{value}</pre>
 {/if}
