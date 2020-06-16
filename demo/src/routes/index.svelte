@@ -13,11 +13,9 @@
   
   import { onMount } from "svelte";
 
-  let value1 = `:b:{{1,0.25}imp}\909b;:s:{{1,0.25}imp}\909;:c:{{{1,0.66}imp,{1,0.8}imp}add}\909closed;:o:{{0.25,0.75}imp}\909open`;
+  let value1 = ":b:{{1,0.25}imp}\909b;:s:{{1,0.25}imp}\909;:c:{{{1,0.66}imp,{1,0.8}imp}add}\909closed;:o:{{0.25,0.75}imp}\909open";
   let value2 = "MAIN -> SENTENCE '.' SENTENCE -> SUB _ VERB _ MOD  MD -> MD _ '*' _ E  {% function(d) {return {type: 'M', d:d, v:d[0].v*d[4].v}} %}";
-
   let cm1, cm2;
- 
   let cmdEnter = () => console.log("cmd-Enter");
   let ctrlEnter = () => console.log("ctrl-Enter");
   let cmdPeriod = () => console.log("cmd-.");
