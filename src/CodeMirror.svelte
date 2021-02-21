@@ -411,8 +411,8 @@
 <style>
   /* textarea {
     visibility: hidden;
-  } */
-/* 
+  }
+
   pre {
     position: absolute;
     width: 100%;

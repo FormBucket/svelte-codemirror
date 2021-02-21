@@ -10,7 +10,7 @@ const name = pkg.name
 export default {
 	input: "src/CodeMirror.svelte",
 	output: [
-		{ file: pkg.module, format: "es" },
+		{ file: pkg.module, format: "es", sourcemap: 'inline' },
 		{ file: pkg.main, format: "umd", name }
 	],
 	// sourcemap: true,
