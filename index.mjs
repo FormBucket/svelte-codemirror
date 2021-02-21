@@ -456,3 +456,4 @@ ${!CodeMirror ? `<pre>${escape(value)}</pre>` : ``}`;
 });
 
 export default CodeMirror_1;
+//# sourceMappingURL=index.mjs.map
