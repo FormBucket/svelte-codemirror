@@ -1,7 +1,8 @@
 <script context="module">
   const is_browser = typeof window !== "undefined";
 
-  import CodeMirror, { set, update } from "svelte-codemirror";
+  import CodeMirror from "svelte-codemirror";
+  // import CodeMirror, { set, update } from "svelte-codemirror";
   import "codemirror/lib/codemirror.css";
 
   if (is_browser) {
@@ -10,7 +11,7 @@
 </script>
 
 <script>
-  
+
   import { onMount } from "svelte";
 
   let value1 = ":b:{{1,0.25}imp}\909b;:s:{{1,0.25}imp}\909;:c:{{{1,0.66}imp,{1,0.8}imp}add}\909closed;:o:{{0.25,0.75}imp}\909open";
@@ -21,16 +22,16 @@
   let cmdPeriod = () => console.log("cmd-.");
   let ctrlPeriod = () => console.log("ctrl-.");
   let cmdForwardSlash = () => {
-    // console.log("cmd-/"); 
+    // console.log("cmd-/");
   }
   let ctrlForwardSlash = () => {
-    // console.log("ctrl-/"); 
+    // console.log("ctrl-/");
   }
 
 	onMount(async () => {
-   
+
     cm1.set(value1, "js", 'monokai');
-   
+
     cm2.set(value2, "ebnf");
 
 	});
@@ -59,33 +60,33 @@
 
 <div class="codemirror-container flex">
   <div class="codemirror-container-sema">
-    <CodeMirror bind:this={cm1} 
-                bind:value={value1} 
+    <CodeMirror bind:this={cm1}
+                bind:value={value1}
                 tab={false}
                 on:change={ e => on(e) }
                 on:focus={ e => on(e) }
                 on:blur={ e => on(e) }
                 on:refresh={ e => on(e) }
                 on:gutterClick={ e => on(e) }
-                on:viewportChange={ e => on(e) }                      
-                {cmdEnter} 
-                {cmdPeriod} 
-                {ctrlEnter} 
+                on:viewportChange={ e => on(e) }
+                {cmdEnter}
+                {cmdPeriod}
+                {ctrlEnter}
                 {cmdForwardSlash}
                 />
   </div>
   <br>
-               
-  <CodeMirror bind:this={cm2} 
+
+  <CodeMirror bind:this={cm2}
               bind:value={value2}
               on:change={ e => on(e) }
               on:focus={ e => on(e) }
               on:blur={ e => on(e) }
               on:refresh={ e => on(e) }
               on:gutterClick={ e => on(e) }
-              on:viewportChange={ e => on(e) }      
-              {ctrlEnter} 
-              {cmdPeriod}  
+              on:viewportChange={ e => on(e) }
+              {ctrlEnter}
+              {cmdPeriod}
               {cmdForwardSlash}
               />
   <br>
