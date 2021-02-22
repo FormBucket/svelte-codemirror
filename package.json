@@ -1,6 +1,6 @@
 {
   "name": "svelte-codemirror",
-  "version": "1.2.1",
+  "version": "1.5.0",
   "description": "An svelte v3 component for embedding codemirror",
   "module": "index.mjs",
   "main": "index.js",
@@ -16,9 +16,9 @@
     "codemirror": "^5.54.0"
   },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^8.0.1",
-    "rollup": "^1.15.6",
-    "rollup-plugin-svelte": "^5.2.2",
-    "svelte": "^3.23.2"
+    "@rollup/plugin-node-resolve": "^11.2.0",
+    "rollup": "^2.39.0",
+    "rollup-plugin-svelte": "^7.1.0",
+    "svelte": "^3.32.3"
   }
 }

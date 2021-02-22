@@ -1,5 +1,5 @@
 import 'codemirror/mode/javascript/javascript.js';
-// import 'codemirror/mode/shell/shell.js';
+import 'codemirror/mode/shell/shell.js';
 import 'codemirror/mode/ebnf/ebnf';
 import 'codemirror/mode/handlebars/handlebars.js';
 import 'codemirror/mode/htmlmixed/htmlmixed.js';
@@ -9,8 +9,8 @@ import 'codemirror/mode/asn.1/asn.1.js';
 import 'codemirror/mode/clojure/clojure.js';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/keymap/vim.js';
-// import 'codemirror/theme/monokai.css';
-// import 'codemirror/theme/icecoder.css';
+import 'codemirror/theme/monokai.css';
+import 'codemirror/theme/icecoder.css';
 import "codemirror/addon/edit/closebrackets.js";
 import "codemirror/addon/edit/closetag.js";
 import 'codemirror/theme/shadowfox.css';

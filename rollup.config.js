@@ -16,10 +16,10 @@ export default {
 	// sourcemap: true,
 	plugins: [
 		svelte({
-			dev: true,
-			hydratable: true,
+			// dev: true,
+			// hydratable: true,
 			emitCss: true,
-			generate: "ssr",
+			// generate: "ssr",
 		}),
 		resolve({
 			browser: true,
