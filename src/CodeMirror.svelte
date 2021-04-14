@@ -183,9 +183,6 @@
     editor.refresh();
   }
 
-  export function focus() {
-    editor.focus();
-  }
 
   let w;
   let h;
