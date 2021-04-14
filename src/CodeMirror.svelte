@@ -111,19 +111,24 @@
     }
   }
 
-  export function getCurrentCursorPosition() {
+  export function getCursor() {
     if (editor) {
-      return editor.getCurrentCursorPosition();
+      return editor.getDoc().getCursor();
     }
   }
   export function selectAll(){
     if (editor) editor.execCommand('selectAll');
   }
 
-  export function setCursorPosition(pos){
+  export function setCursor(pos){
+    if (editor) {
+      editor.setCursor(pos);
+    }
+  }
+
+  export function focus(){
     if (editor) {
       editor.focus();
-      editor.setCursorPosition(pos);
     }
   }
 
