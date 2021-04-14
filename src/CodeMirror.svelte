@@ -110,6 +110,23 @@
     }
   }
 
+  export function getCurrentCursorPosition() {
+    if (editor) {
+      return editor.getCurrentCursorPosition();
+    }
+  }
+  export function selectAll(){
+    if (editor) editor.selectAll();
+  }
+
+  export function setCursorPosition(pos){
+    if (editor) {
+      editor.focus();
+      editor.setCursorPosition(pos);
+    }
+  }
+
+
   /*
    * Find code between dividers,
    * const divider = "__________";
@@ -377,13 +394,13 @@
       if (!updating_externally) {
         dispatch("blur", { event });
       }
-    });    
+    });
 
     editor.on("refresh", (instance, event) => {
       if (!updating_externally) {
         dispatch("refresh", { event });
       }
-    }); 
+    });
 
     editor.on("gutterClick", (instance, line, gutter, clickEvent) => {
       if (!updating_externally) {
@@ -436,7 +453,7 @@
 <textarea {value}
           tabindex="0"
           bind:this={refs.editor}
-          readonly 
+          readonly
           />
 {#if !CodeMirror}
   <pre>{value}</pre>
