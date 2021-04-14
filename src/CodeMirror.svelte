@@ -40,6 +40,7 @@
   export let ctrlCloseSquareBracket = null;
   export let cmdForwardSlash = null;
   export let ctrlForwardSlash = null;
+  export let editor;
 
   // [Original Comment] We have to expose set and update methods,
   // rather than making this state-driven through props,
@@ -116,7 +117,7 @@
     }
   }
   export function selectAll(){
-    if (editor) editor.selectAll();
+    if (editor) editor.execCommand('selectAll');
   }
 
   export function setCursorPosition(pos){
@@ -125,6 +126,7 @@
       editor.setCursorPosition(pos);
     }
   }
+
 
 
   /*
@@ -218,7 +220,6 @@
 
 
   const refs = {};
-  let editor;
   let updating_externally = false;
   let marker;
   let error_line;
