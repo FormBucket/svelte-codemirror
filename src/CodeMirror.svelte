@@ -20,7 +20,7 @@
 
   export let value = "";
   export let readonly = false;
-  export let errorLoc = null;
+  // export let errorLoc = null;
   // export let flex = false;
   export let lineNumbers  = true;
   export let tab          = true;
@@ -40,7 +40,7 @@
   export let ctrlCloseSquareBracket = null;
   export let cmdForwardSlash = null;
   export let ctrlForwardSlash = null;
-  export let editor;
+  // export let editor;
 
   // [Original Comment] We have to expose set and update methods,
   // rather than making this state-driven through props,
