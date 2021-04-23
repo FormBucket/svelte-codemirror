@@ -40,8 +40,20 @@
   export let ctrlCloseSquareBracket = null;
   export let cmdForwardSlash = null;
   export let ctrlForwardSlash = null;
-  // export let editor;
+
   let editor;
+  let w;
+  let h;
+  let mode;
+  let theme;
+
+  const refs = {};
+  let updating_externally = false;
+  let marker;
+  let error_line;
+  let destroyed = false;
+  let CodeMirror;
+  let previous_error_line;
 
   // [Original Comment] We have to expose set and update methods,
   // rather than making this state-driven through props,
@@ -66,7 +78,7 @@
     if (editor) {
       const { left, top } = editor.getScrollInfo();
       editor.setValue((value = new_value));
-      editor.scrollTo(left, top);
+      // editor.scrollTo(left, top);
     }
   }
 
@@ -81,6 +93,13 @@
       return editor.getLine(lineIndex);
     }
   }
+
+  export function setSize(w, h) {
+    if (editor) {
+      return editor.setSize(w, h);
+    }
+  }
+
 
   export function getSelection() {
     if (editor) {
@@ -185,11 +204,6 @@
   }
 
 
-  let w;
-  let h;
-  let mode;
-  let theme;
-
   const modes = {
     js: {
       name: "javascript",
@@ -222,12 +236,8 @@
   };
 
 
-  const refs = {};
-  let updating_externally = false;
-  let marker;
-  let error_line;
-  let destroyed = false;
-  let CodeMirror;
+
+
 
   $: if (editor && w && h) {
     editor.refresh();
@@ -254,7 +264,7 @@
   //   }
   // }
 
-  let previous_error_line;
+
   // $: if (editor) {
   //   if (previous_error_line != null) {
   //     editor.removeLineClass(previous_error_line, "wrap", "error-line");
