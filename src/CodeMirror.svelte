@@ -232,38 +232,38 @@
     editor.refresh();
   }
 
-  $: {
-    if (marker) marker.clear();
+  // $: {
+  //   if (marker) marker.clear();
 
-    if (errorLoc) {
-      const line = errorLoc.line - 1;
-      const ch = errorLoc.column;
+  //   if (errorLoc) {
+  //     const line = errorLoc.line - 1;
+  //     const ch = errorLoc.column;
 
-      marker = editor.markText(
-        { line, ch },
-        { line, ch: ch + 1 },
-        {
-          className: "error-loc"
-        }
-      );
+  //     marker = editor.markText(
+  //       { line, ch },
+  //       { line, ch: ch + 1 },
+  //       {
+  //         className: "error-loc"
+  //       }
+  //     );
 
-      error_line = line;
-    } else {
-      error_line = null;
-    }
-  }
+  //     error_line = line;
+  //   } else {
+  //     error_line = null;
+  //   }
+  // }
 
   let previous_error_line;
-  $: if (editor) {
-    if (previous_error_line != null) {
-      editor.removeLineClass(previous_error_line, "wrap", "error-line");
-    }
+  // $: if (editor) {
+  //   if (previous_error_line != null) {
+  //     editor.removeLineClass(previous_error_line, "wrap", "error-line");
+  //   }
 
-    if (error_line && error_line !== previous_error_line) {
-      editor.addLineClass(error_line, "wrap", "error-line");
-      previous_error_line = error_line;
-    }
-  }
+  //   if (error_line && error_line !== previous_error_line) {
+  //     editor.addLineClass(error_line, "wrap", "error-line");
+  //     previous_error_line = error_line;
+  //   }
+  // }
 
   onMount(() => {
     if (_CodeMirror) {
