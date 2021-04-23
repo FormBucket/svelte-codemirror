@@ -41,6 +41,7 @@
   export let cmdForwardSlash = null;
   export let ctrlForwardSlash = null;
   // export let editor;
+  let editor;
 
   // [Original Comment] We have to expose set and update methods,
   // rather than making this state-driven through props,
