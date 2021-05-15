@@ -214,14 +214,22 @@
 
         const list = snippets.filter((snippet) => 
           snippet.text.indexOf(currentWord) >= 0
-        );
-
+        ).sort((a, b) => { 
+          if(a.text > b.text){
+            return 1;
+          } else if(a.text < b.text){
+            return -1;
+          } else {
+            return 0;
+          }
+        });
+        
         return {
           list: list.length ? list : snippets,
           from: CodeMirror.Pos(line, start),
           to: CodeMirror.Pos(line, end)
         }
-      }, { completeSingle: false });
+      }, { completeSingle: false, completeOnSingleClick: false });
     }
   }
 
