@@ -31,8 +31,9 @@
   }
 
   const onMouseMove = e => {
-    const x = e.offsetX/window.innerWidth;
-    const y = e.offsetY/window.innerHeight;
+    // e.preventDefault();
+    const x = e.pageX/window.innerWidth;
+    const y = e.pageY/window.innerHeight;
     if(outputText){
       outputText.innerText = `X:${parseFloat(x).toFixed(5)} Y:${parseFloat(y).toFixed(5)}`;
     }
@@ -90,7 +91,7 @@
 </svelte:head>
 
 <div class="codemirror-container flex">
-  <div class="codemirror-container-sema">
+  <div class="codemirror-container-sema" >
     <CodeMirror bind:this={cm1}
                 bind:value={value1}
                 tab={false}
