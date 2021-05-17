@@ -16,7 +16,9 @@
 
   let value1 = ":b:{{1,0.25}imp}\909b;:s:{{1,0.25}imp}\909;:c:{{{1,0.66}imp,{1,0.8}imp}add}\909closed;:o:{{0.25,0.75}imp}\909open";
   let value2 = "MAIN -> SENTENCE '.' SENTENCE -> SUB _ VERB _ MOD  MD -> MD _ '*' _ E  {% function(d) {return {type: 'M', d:d, v:d[0].v*d[4].v}} %}";
-  let cm1, cm2;
+
+  let cm1, cm2, outputText;
+
   let cmdEnter = () => console.log("cmd-Enter");
   let ctrlEnter = () => console.log("ctrl-Enter");
   let cmdPeriod = () => console.log("cmd-.");
@@ -28,13 +30,42 @@
     // console.log("ctrl-/");
   }
 
+  const onMouseMove = e => {
+    const x = e.offsetX/window.innerWidth;
+    const y = e.offsetY/window.innerHeight;
+    if(outputText){
+      outputText.innerText = `X:${parseFloat(x).toFixed(5)} Y:${parseFloat(y).toFixed(5)}`;
+    }
+  }
+
+  const onKeyDown = e => {
+    if(e.keyCode === 18){
+      document.addEventListener( 'mousemove', onMouseMove, true )
+    }
+  }
+
+  const onKeyUp = e => {
+    if(e.which === 18){
+      document.removeEventListener( 'mousemove', onMouseMove, true );
+    }
+  }
+
 	onMount(async () => {
+
+
+    // Subscribe Left `Alt`-key down event to subscribe mouse move
+    document.addEventListener("keydown", onKeyDown );
+
+    // Subscribe Left `Alt`-key UP event to unsubscribe mouse move
+    document.addEventListener("keyup", onKeyUp);
 
     cm1.set(value1, "js", 'monokai');
 
     cm2.set(value2, "ebnf");
 
 	});
+
+
 
   const on = e => {
     console.log("DEBUG:on: ");
@@ -90,5 +121,11 @@
               {cmdForwardSlash}
               />
   <br>
-  <button on:click="{ () => { value1 += value1 + '1'; cm2.update(value1); console.log(value1); }}" >Press me!</button>
+  <button on:click="{ () => { value1 += value1 + '1'; cm2.update(value1); console.log(value1); }}" >Press to update bottom editor</button>
+  <span
+        class="mouse-outputText"> Press ALT + drag mouse to update mouse coordinated from
+  </span>
+  <span bind:this={outputText}
+        class="mouse-outputText">
+  </span>
 </div>
