@@ -40,6 +40,8 @@
   export let ctrlCloseSquareBracket = null;
   export let cmdForwardSlash = null;
   export let ctrlForwardSlash = null;
+  export let useAutocomplete = null;
+  export let snippets = null;
 
   let editor;
   let w;
@@ -201,6 +203,34 @@
 
   export function resize() {
     editor.refresh();
+  }
+
+  export function autoComplete(){
+    if(editor && CodeMirror.showHint && snippets){
+      CodeMirror.showHint(editor, function(){
+        const cursor = editor.getCursor();
+        const { start, string: currentWord } = editor.getTokenAt(cursor);
+        const { ch: end, line } = cursor;
+
+        const list = snippets.filter((snippet) => 
+          snippet.text.indexOf(currentWord) >= 0
+        ).sort((a, b) => { 
+          if(a.text > b.text){
+            return 1;
+          } else if(a.text < b.text){
+            return -1;
+          } else {
+            return 0;
+          }
+        });
+        
+        return {
+          list: list.length ? list : snippets,
+          from: CodeMirror.Pos(line, start),
+          to: CodeMirror.Pos(line, end)
+        }
+      }, { completeSingle: false, completeOnSingleClick: false });
+    }
   }
 
 
@@ -375,6 +405,9 @@
 
     if(ctrlForwardSlash)
       opts.extraKeys["Ctrl-/"] = () => editor.execCommand('toggleComment');
+    
+    if(useAutocomplete)
+      opts.extraKeys["Ctrl-Space"] = () => autoComplete();
 
     // if(ctrlForwardSlash)
     //   opts.extraKeys["Ctrl-/"] = (ctrlForwardSlash);
