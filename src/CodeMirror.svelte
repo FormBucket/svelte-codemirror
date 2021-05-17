@@ -428,13 +428,6 @@
       }
     });
 
-    editor.on("mousemove", (cm, ev) => {
-      console.log('cm mouse move')
-      ev.codemirrorIgnore = true;
-      ev.preventDefault();
-    });
-
-
     if (first) await sleep(50);
     editor.refresh();
 
