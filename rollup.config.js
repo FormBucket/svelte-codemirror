@@ -1,5 +1,5 @@
 import svelte from "rollup-plugin-svelte";
-import resolve from "rollup-plugin-node-resolve";
+import resolve from "@rollup/plugin-node-resolve";
 import pkg from "./package.json";
 
 const name = pkg.name
@@ -8,10 +8,21 @@ const name = pkg.name
   .replace(/-\w/g, m => m[1].toUpperCase());
 
 export default {
-  input: "src/CodeMirror.svelte",
-  output: [
-    { file: pkg.module, format: "es" },
-    { file: pkg.main, format: "umd", name }
-  ],
-  plugins: [svelte({ generate: "ssr" }), resolve()]
+	input: "src/CodeMirror.svelte",
+	output: [
+		{ file: pkg.module, format: "es", sourcemap: true },
+		{ file: pkg.main, format: "umd", name, sourcemap: true }
+	],
+	// sourcemap: true,
+	plugins: [
+		svelte({
+			// dev: true,
+			// hydratable: true,
+			emitCss: true,
+			// generate: "ssr",
+		}),
+		resolve({
+			browser: true,
+		}),
+	],
 };
